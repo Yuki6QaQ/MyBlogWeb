@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户中心 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .rc-work-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 50px;
+        }
+
+        .rc-form-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            animation: fadeInUpRc 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+        }
+
+        .rc-card-header {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #1e40af;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .rc-tabs {
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 30px;
+            gap: 40px;
+        }
+
+        .rc-tabs a {
+            text-decoration: none;
+            color: #94a3b8;
+            padding: 10px 5px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .rc-tabs a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            transition: width 0.3s ease;
+        }
+
+        #anchor-login:target~main .right-content .rc-work-container .rc-form-card .rc-tabs a[href="#anchor-login"],
+        #anchor-register:target~main .right-content .rc-work-container .rc-form-card .rc-tabs a[href="#anchor-register"] {
+            color: #1e40af;
+        }
+
+        #anchor-login:target~main .right-content .rc-work-container .rc-form-card .rc-tabs a[href="#anchor-login"]::after,
+        #anchor-register:target~main .right-content .rc-work-container .rc-form-card .rc-tabs a[href="#anchor-register"]::after {
+            width: 100%;
+        }
+
+        .rc-tabs a:hover {
+            color: #3b82f6;
+        }
+
+        .rc-panel {
+            display: none;
+            animation: fadeInRc 0.5s ease;
+        }
+
+        @keyframes fadeInRc {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #anchor-login:target~main .right-content .rc-work-container .rc-form-card .panel-login {
+            display: block;
+        }
+
+        #anchor-register:target~main .right-content .rc-work-container .rc-form-card .panel-register {
+            display: block;
+        }
+
+        body:not(:has(:target)) .panel-login {
+            display: block;
+        }
+
+        body:not(:has(:target)) .rc-tabs a[href="#anchor-login"] {
+            color: #1e40af;
+        }
+
+        body:not(:has(:target)) .rc-tabs a[href="#anchor-login"]::after {
+            width: 100%;
+        }
+
+        .rc-form-item {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .rc-form-item label {
+            width: 80px;
+            text-align: right;
+            margin-right: 15px;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .rc-form-item input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background-color: #f8fafc;
+            transition: all 0.3s ease;
+        }
+
+        .rc-form-item input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background-color: #fff;
+        }
+
+        .rc-agreement {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #64748b;
+        }
+
+        .rc-agreement input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            accent-color: #3b82f6;
+            cursor: pointer;
+        }
+
+        .rc-agreement label {
+            width: auto;
+            text-align: left;
+            margin-right: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .rc-btn-group {
+            text-align: center;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .rc-btn-group input {
+            padding: 10px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .rc-btn-group input[type="submit"] {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .rc-btn-group input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(30, 64, 175, 0.3);
+        }
+
+        .rc-btn-group input[type="reset"] {
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+        }
+
+        .rc-btn-group input[type="reset"]:hover {
+            background-color: #e2e8f0;
+            color: #334155;
+        }
+
+        @keyframes fadeInUpRc {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .rc-form-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .rc-form-item label {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+
+            .rc-form-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <div id="anchor-login"></div>
+    <div id="anchor-register"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">用户注册与登录 <span class="highlight">🔐</span></h1>
+                <p class="greeting-subtitle">CSS Hash 锚点切换与表单验证实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fas fa-user-lock"></i> 用户认证</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="rc-work-container">
+                    <div class="rc-form-card">
+                        <div class="rc-card-header">不知名网站用户中心</div>
+                        <div class="rc-tabs">
+                            <a href="#anchor-login">用户登录</a>
+                            <a href="#anchor-register">用户注册</a>
+                        </div>
+
+                        <div class="rc-panel panel-login">
+                            <form action="#">
+                                <div class="rc-form-item">
+                                    <label>用户名：</label>
+                                    <input type="text" placeholder="请输入用户名" required>
+                                </div>
+                                <div class="rc-form-item">
+                                    <label>密码：</label>
+                                    <input type="password" placeholder="请输入密码" required>
+                                </div>
+                                <div class="rc-btn-group">
+                                    <input type="submit" value="登 录">
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="rc-panel panel-register">
+                            <form action="#">
+                                <div class="rc-form-item">
+                                    <label>用户名：</label>
+                                    <input type="text" placeholder="设置用户名" required>
+                                </div>
+                                <div class="rc-form-item">
+                                    <label>密码：</label>
+                                    <input type="password" placeholder="设置密码" required>
+                                </div>
+                                <div class="rc-form-item">
+                                    <label>确认密码：</label>
+                                    <input type="password" placeholder="请确认密码" required>
+                                </div>
+                                <div class="rc-form-item">
+                                    <label>手机号：</label>
+                                    <input type="tel" placeholder="请输入手机号" required>
+                                </div>
+                                <div class="rc-agreement">
+                                    <input type="checkbox" id="agree" required>
+                                    <label for="agree">我已阅读并同意用户协议</label>
+                                </div>
+                                <div class="rc-btn-group">
+                                    <input type="submit" value="注 册">
+                                    <input type="reset" value="重置">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>

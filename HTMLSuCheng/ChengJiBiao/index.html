@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成绩展示 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        a .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        /* --- 成绩表作业专属样式 (已适配博客环境) --- */
+        .score-work-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding-bottom: 20px;
+        }
+
+        .score-table-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            animation: fadeInUpScore 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            overflow-x: auto;
+        }
+
+        .score-table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.15);
+        }
+
+        .score-card-header {
+            font-size: 1.4rem;
+            color: #1e40af;
+            margin-bottom: 20px;
+            border-left: 5px solid #3b82f6;
+            padding-left: 15px;
+            font-weight: bold;
+        }
+
+        .score-table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .score-table th,
+        .score-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #334155;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .score-table th {
+            font-weight: 700;
+            color: #1e40af;
+            background-color: rgba(239, 246, 255, 0.8);
+        }
+
+        @keyframes fadeInUpScore {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">HTML 成绩表格练习 <span class="highlight">📊</span></h1>
+                <p class="greeting-subtitle">复杂合并单元格与语义化表格实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fas fa-code"></i> HTML5</span>
+                    <span class="meta-tag"><i class="fas fa-table"></i> 表格布局</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="score-work-container">
+
+                    <div class="score-table-card" style="animation-delay: 0.1s;">
+                        <div class="score-card-header">基础成绩统计</div>
+                        <table class="score-table">
+                            <tr>
+                                <th>姓名</th>
+                                <th>语文</th>
+                                <th>数学</th>
+                                <th>总分</th>
+                            </tr>
+                            <tr>
+                                <td>李小璐</td>
+                                <td>60</td>
+                                <td>58</td>
+                                <td>118</td>
+                            </tr>
+                            <tr>
+                                <td>安可可</td>
+                                <td>80</td>
+                                <td>20</td>
+                                <td>100</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="score-table-card" style="animation-delay: 0.2s;">
+                        <div class="score-card-header">复杂合并单元格练习</div>
+                        <table class="score-table">
+                            <tr>
+                                <td rowspan="2">2,1</td>
+                                <td colspan="2">1,3</td>
+                                <td colspan="2" rowspan="3">3,5</td>
+                            </tr>
+                            <tr>
+                                <td>2,2</td>
+                                <td>2,3</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">4,1</td>
+                                <td>3,2</td>
+                                <td>3,3</td>
+                            </tr>
+                            <tr>
+                                <td>4,2</td>
+                                <td>4,3</td>
+                                <td>4,4</td>
+                                <td>4,5</td>
+                            </tr>
+                            <tr>
+                                <td>5,1</td>
+                                <td>5,2</td>
+                                <td>5,3</td>
+                                <td>5,4</td>
+                                <td>5,5</td>
+                            </tr>
+                            <tr>
+                                <td>6,1</td>
+                                <td>6,2</td>
+                                <td>6,3</td>
+                                <td>6,4</td>
+                                <td>6,5</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">7,3</td>
+                                <td>7,4</td>
+                                <td>7,5</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">8,5</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="score-table-card" style="animation-delay: 0.3s;">
+                        <div class="score-card-header">学期综合成绩表</div>
+                        <table class="score-table">
+                            <tr>
+                                <th rowspan="2">姓名</th>
+                                <th colspan="2">通识课</th>
+                                <th colspan="3">专业课</th>
+                                <th rowspan="2">总分</th>
+                            </tr>
+                            <tr>
+                                <th>英语</th>
+                                <th>高数</th>
+                                <th>UI设计</th>
+                                <th>网页设计</th>
+                                <th>程序设计</th>
+                            </tr>
+                            <tr>
+                                <th>张三</th>
+                                <td>60</td>
+                                <td>70</td>
+                                <td>80</td>
+                                <td>90</td>
+                                <td>80</td>
+                                <td>380</td>
+                            </tr>
+                            <tr>
+                                <th>李四</th>
+                                <td>60</td>
+                                <td>70</td>
+                                <td>80</td>
+                                <td>90</td>
+                                <td>80</td>
+                                <td>380</td>
+                            </tr>
+                            <tr>
+                                <th>王五</th>
+                                <td>60</td>
+                                <td>70</td>
+                                <td>90</td>
+                                <td>90</td>
+                                <td>80</td>
+                                <td>380</td>
+                            </tr>
+                            <tr>
+                                <th>赵六</th>
+                                <td>60</td>
+                                <td>80</td>
+                                <td>80</td>
+                                <td>90</td>
+                                <td>80</td>
+                                <td>380</td>
+                            </tr>
+                            <tr>
+                                <th>平均</th>
+                                <td>60</td>
+                                <td>70</td>
+                                <td>90</td>
+                                <td>90</td>
+                                <td>80</td>
+                                <td>380</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>有声相册 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        /* --- 有声相册作业专属样式 --- */
+        .sp-work-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding-bottom: 50px;
+        }
+
+        .sp-content-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 30px;
+            width: 100%;
+            max-width: 1000px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            animation: fadeInUpSp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            position: relative;
+        }
+
+        .sp-content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.15);
+        }
+
+        .sp-card-header {
+            font-size: 1.4rem;
+            color: #1e40af;
+            margin-bottom: 25px;
+            border-left: 5px solid #3b82f6;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .sp-image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .sp-image-gallery a {
+            display: block;
+            transition: transform 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.08);
+        }
+
+        .sp-image-gallery a:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(30, 64, 175, 0.15);
+        }
+
+        .sp-image-gallery img {
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+
+        .sp-image-gallery a:hover img {
+            filter: brightness(1.05);
+        }
+
+        .sp-img-meinv img {
+            width: 320px;
+            height: 240px;
+        }
+
+        .sp-img-shuaige img {
+            width: 320px;
+            height: 320px;
+        }
+
+        .sp-img-chongwu img {
+            width: 320px;
+            height: 320px;
+        }
+
+        .sp-img-qiche img {
+            width: 320px;
+            height: 180px;
+        }
+
+        .sp-xuanfu {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 10px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.15);
+            z-index: 999;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sp-xuanfu a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .sp-xuanfu a:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);
+        }
+
+        .sp-floatmusic {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(30, 64, 175, 0.15);
+            z-index: 999;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .sp-floatmusic:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(30, 64, 175, 0.2);
+        }
+
+        .sp-floatmusic audio {
+            height: 30px;
+            outline: none;
+        }
+
+        @keyframes fadeInUpSp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sp-xuanfu {
+                display: none;
+            }
+
+            .sp-image-gallery img {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            .sp-content-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看有声相册演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">LXY 的有声相册 <span class="highlight">🎵</span></h1>
+                <p class="greeting-subtitle">多媒体标签与锚点定位实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fas fa-image"></i> 图片画廊</span>
+                    <span class="meta-tag"><i class="fas fa-music"></i> 音频播放</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="sp-work-container">
+
+                    <div class="sp-content-card sp-img-meinv" id="sp-meinv" style="animation-delay: 0.1s;">
+                        <div class="sp-card-header">美女</div>
+                        <div class="sp-image-gallery">
+                            <a href="./img/Meinv1.jpg" target="_blank"><img src="./img/Meinv1.jpg" alt="美女"></a>
+                            <a href="./img/Meinv2.jpg" target="_blank"><img src="./img/Meinv2.jpg" alt="美女"></a>
+                            <a href="./img/Meinv3.jpg" target="_blank"><img src="./img/Meinv3.jpg" alt="美女"></a>
+                        </div>
+                    </div>
+
+                    <div class="sp-content-card sp-img-shuaige" id="sp-shuaige" style="animation-delay: 0.2s;">
+                        <div class="sp-card-header">帅哥</div>
+                        <div class="sp-image-gallery">
+                            <a href="./img/Handsome (1).jpg" target="_blank"><img src="./img/Handsome (1).jpg"
+                                    alt="帅哥"></a>
+                            <a href="./img/Handsome (2).jpg" target="_blank"><img src="./img/Handsome (2).jpg"
+                                    alt="帅哥"></a>
+                            <a href="./img/Handsome (3).jpg" target="_blank"><img src="./img/Handsome (3).jpg"
+                                    alt="帅哥"></a>
+                            <a href="./img/Handsome (4).jpg" target="_blank"><img src="./img/Handsome (4).jpg"
+                                    alt="帅哥"></a>
+                        </div>
+                    </div>
+
+                    <div class="sp-content-card sp-img-chongwu" id="sp-chongwu" style="animation-delay: 0.3s;">
+                        <div class="sp-card-header">宠物</div>
+                        <div class="sp-image-gallery">
+                            <a href="./img/cat (1).jpg" target="_blank"><img src="./img/cat (1).jpg" alt="宠物"></a>
+                            <a href="./img/cat (2).jpg" target="_blank"><img src="./img/cat (2).jpg" alt="宠物"></a>
+                            <a href="./img/cat (3).jpg" target="_blank"><img src="./img/cat (3).jpg" alt="宠物"></a>
+                            <a href="./img/cat (4).jpg" target="_blank"><img src="./img/cat (4).jpg" alt="宠物"></a>
+                            <a href="./img/cat (5).jpg" target="_blank"><img src="./img/cat (5).jpg" alt="宠物"></a>
+                        </div>
+                    </div>
+
+                    <div class="sp-content-card sp-img-qiche" id="sp-qiche" style="animation-delay: 0.4s;">
+                        <div class="sp-card-header">汽车</div>
+                        <div class="sp-image-gallery">
+                            <a href="./img/car (1).jpg" target="_blank"><img src="./img/car (1).jpg" alt="汽车"></a>
+                            <a href="./img/car (2).jpg" target="_blank"><img src="./img/car (2).jpg" alt="汽车"></a>
+                            <a href="./img/car (3).jpg" target="_blank"><img src="./img/car (3).jpg" alt="汽车"></a>
+                            <a href="./img/car (4).jpg" target="_blank"><img src="./img/car (4).jpg" alt="汽车"></a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="sp-xuanfu">
+        <a href="#top">Top</a>
+        <a href="#sp-meinv">美女</a>
+        <a href="#sp-shuaige">帅哥</a>
+        <a href="#sp-chongwu">宠物</a>
+        <a href="#sp-qiche">汽车</a>
+    </div>
+
+    <div class="sp-floatmusic">
+        <audio src="./music/take me somewhere-Seto.mp3" controls loop></audio>
+    </div>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var audio = document.querySelector('.sp-floatmusic audio');
+            if (audio) {
+                audio.volume = 0.15;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预约登记 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .yy-work-container {
+            width: 100%;
+            padding-bottom: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .yy-form-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            animation: fadeInUpYy 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+        }
+
+        .yy-card-header {
+            font-size: 1.4rem;
+            color: #1e40af;
+            margin-bottom: 30px;
+            border-left: 5px solid #3b82f6;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .yy-form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .yy-form-group label,
+        .yy-form-group span.label-text {
+            width: 100px;
+            text-align: right;
+            margin-right: 15px;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .yy-input-wrapper {
+            flex: 1;
+        }
+
+        .yy-input-wrapper input,
+        .yy-input-wrapper select,
+        .yy-input-wrapper textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #334155;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+
+        .yy-input-wrapper input:focus,
+        .yy-input-wrapper select:focus,
+        .yy-input-wrapper textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background-color: #fff;
+        }
+
+        .yy-input-wrapper textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .yy-radio-group {
+            display: flex;
+            gap: 20px;
+            padding-top: 5px;
+        }
+
+        .yy-radio-group label {
+            width: auto;
+            text-align: left;
+            margin-right: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .yy-btn-box {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .yy-btn {
+            padding: 10px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .yy-btn-submit {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .yy-btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(30, 64, 175, 0.3);
+        }
+
+        .yy-btn-reset {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+        }
+
+        .yy-btn-reset:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        @keyframes fadeInUpYy {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .yy-form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .yy-form-group label,
+            .yy-form-group span.label-text {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">来访预约登记 <span class="highlight">📝</span></h1>
+                <p class="greeting-subtitle">复杂表单结构与输入控件实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fas fa-edit"></i> 表单交互</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="yy-work-container">
+                    <div class="yy-form-card">
+                        <div class="yy-card-header">顺德职业技术大学 - 预约系统</div>
+                        <form action="#" method="POST">
+                            <div class="yy-form-group">
+                                <label>姓名：</label>
+                                <div class="yy-input-wrapper">
+                                    <input type="text" placeholder="请输入您的姓名" required>
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <span class="label-text">性别：</span>
+                                <div class="yy-input-wrapper yy-radio-group">
+                                    <label><input type="radio" name="gender" checked> 男</label>
+                                    <label><input type="radio" name="gender"> 女</label>
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>手机号码：</label>
+                                <div class="yy-input-wrapper">
+                                    <input type="tel" placeholder="请输入11位手机号码" required>
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>身份证：</label>
+                                <div class="yy-input-wrapper">
+                                    <input type="text" placeholder="请输入身份证号" required>
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>同行人：</label>
+                                <div class="yy-input-wrapper">
+                                    <input type="text" placeholder="如有同行人请填写">
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>车牌号：</label>
+                                <div class="yy-input-wrapper">
+                                    <input type="text" placeholder="如需停车请填写车牌">
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>来访日期：</label>
+                                <div class="yy-input-wrapper">
+                                    <input type="date" required>
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>来访时间：</label>
+                                <div class="yy-input-wrapper">
+                                    <input type="time" required>
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>来访原因：</label>
+                                <div class="yy-input-wrapper">
+                                    <select>
+                                        <option value="" disabled selected>请选择来访原因</option>
+                                        <option value="gw">公务办理</option>
+                                        <option value="ks">参加考试</option>
+                                        <option value="wy">校园参观</option>
+                                        <option value="fy">拜访亲友</option>
+                                        <option value="px">参加培训</option>
+                                        <option value="qt">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="yy-form-group">
+                                <label>备注信息：</label>
+                                <div class="yy-input-wrapper">
+                                    <textarea placeholder="如有其他特殊需求请在此说明"></textarea>
+                                </div>
+                            </div>
+                            <div class="yy-btn-box">
+                                <input type="submit" value="提交预约" class="yy-btn yy-btn-submit">
+                                <input type="reset" value="重置信息" class="yy-btn yy-btn-reset">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>
