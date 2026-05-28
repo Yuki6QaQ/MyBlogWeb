@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛博游戏厅 | Cyber Arcade</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="https://aka.doubaocdn.com/s/t4441wcDOa" alt="Yuki头像" class="avatar">
+            </div>
+
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <section class="section">
+                <div class="intro glass fade-in visible" style="padding: 0; overflow: hidden;">
+                    <!-- 动态背景 -->
+                    <div class="bg-animation"></div>
+
+                    <header>
+                        <h1 class="neon-text">🕹️ 赛博游戏厅</h1>
+                        <p class="subtitle">准备好挑战你的极限了吗？</p>
+                    </header>
+
+                    <!-- 主菜单 -->
+                    <div id="main-menu" class="menu-grid">
+                        <div class="game-card" onclick="startGame('catch')">
+                            <div class="card-content">
+                                <div class="icon">🧺</div>
+                                <h3>接小球</h3>
+                                <p>考验反应速度</p>
+                            </div>
+                            <button class="play-btn">START</button>
+                        </div>
+                        <div class="game-card" onclick="startGame('plane')">
+                            <div class="card-content">
+                                <div class="icon">✈️</div>
+                                <h3>星际战机</h3>
+                                <p>射击与躲避</p>
+                            </div>
+                            <button class="play-btn">START</button>
+                        </div>
+                        <div class="game-card" onclick="startGame('bird')">
+                            <div class="card-content">
+                                <div class="icon">🐦</div>
+                                <h3>像素鸟</h3>
+                                <p>飞翔吧！</p>
+                            </div>
+                            <button class="play-btn">START</button>
+                        </div>
+                        <div class="game-card" onclick="startGame('memory')">
+                            <div class="card-content">
+                                <div class="icon">🃏</div>
+                                <h3>记忆翻牌</h3>
+                                <p>脑力大挑战</p>
+                            </div>
+                            <button class="play-btn">START</button>
+                        </div>
+                    </div>
+
+                    <!-- 游戏容器通用结构 -->
+                    <div id="game-area" class="game-container hidden">
+                        <div class="hud">
+                            <div class="score-board">
+                                <span id="score-label">得分:</span>
+                                <span id="current-score" class="neon-num">0</span>
+                            </div>
+                            <div class="lives-board hidden" id="lives-container">
+                                ❤️ <span id="lives-count">3</span>
+                            </div>
+                            <button class="back-btn" onclick="backToMenu()">🔙 返回大厅</button>
+                        </div>
+
+                        <!-- 游戏画布/面板 -->
+                        <div id="canvas-wrapper">
+                            <canvas id="game-canvas"></canvas>
+                            <div id="memory-board" class="hidden"></div>
+
+                            <!-- 游戏结束遮罩层 -->
+                            <div id="game-over-screen" class="hidden">
+                                <h2>GAME OVER</h2>
+                                <p>最终得分: <span id="final-score">0</span></p>
+                                <button onclick="restartCurrentGame()">再玩一次</button>
+                            </div>
+                        </div>
+
+                        <div class="controls-hint" id="controls-hint"></div>
+                    </div>
+
+                    <script src="script.js"></script>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>

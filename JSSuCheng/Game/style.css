@@ -1,0 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a1a2e;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    letter-spacing: 2px;
+}
+
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 40px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1rem;
+    border-radius: 30px;
+    border: 2px solid #0f3460;
+    background-color: #16213e;
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#search-input:focus {
+    border-color: #4fc3f7;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+}
+
+#search-input::placeholder {
+    color: #888;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.game-card {
+    background-color: #16213e;
+    border-radius: 15px;
+    overflow: hidden;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    border: 1px solid #0f3460;
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(79, 195, 247, 0.4);
+    border-color: #4fc3f7;
+}
+
+.card-image {
+    height: 60%;
+    background-color: #0f3460;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #4fc3f7;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 20px;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.card-desc {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    line-height: 1.4;
+}
+
+.game-card.placeholder {
+    border: 2px dashed #555;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+}
+
+.game-card.placeholder:hover {
+    opacity: 1;
+    border-color: #888;
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-5px);
+    box-shadow: none;
+}
+
+.placeholder-content {
+    text-align: center;
+    color: #888;
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #16213e;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #4fc3f7;
+    box-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
+    color: #4fc3f7;
+}
+
+.modal-content p {
+    margin-bottom: 10px;
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.repo-link {
+    color: #4fc3f7;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.repo-link:hover {
+    color: #29b6f6;
+    text-decoration: underline;
+}
+
+#close-modal-btn {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background-color: #4fc3f7;
+    color: #1a1a2e;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#close-modal-btn:hover {
+    background-color: #29b6f6;
+}

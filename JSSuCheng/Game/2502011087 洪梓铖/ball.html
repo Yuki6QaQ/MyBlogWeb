@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>接小球游戏 - 升级版</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>🎮 接小球游戏</h1>
+
+    <div id="hud">
+        <div id="score-info">
+            <span id="score">得分：0</span>
+            <span style="margin-left: 20px;" id="lives">生命：❤️❤️❤️</span>
+        </div>
+        <a href="../index.html" id="home-btn">返回主页</a>
+    </div>
+
+    <div id="tips">鼠标移动 或 使用 ← → 键控制挡板</div>
+
+    <div id="game-container">
+        <div id="game">
+            <div id="paddle"></div>
+            <div id="ui-layer" class="active">
+                <h2 id="game-title" style="margin-bottom: 20px; font-size: 36px;">准备好了吗？</h2>
+                <div id="final-score" style="display: none;">最终得分：0</div>
+                <button id="start-btn">开始游戏</button>
+                <button id="restart-btn" style="display: none;">再玩一次</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

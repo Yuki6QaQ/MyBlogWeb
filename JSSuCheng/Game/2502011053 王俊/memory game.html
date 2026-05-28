@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记忆翻卡片游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-decoration" id="backgroundDecoration"></div>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">✨ 记忆翻卡片游戏 ✨</h1>
+            <div class="game-stats">
+                <div class="stat-item">移动次数: <span id="moves">0</span></div>
+                <div class="stat-item">匹配对数: <span id="matches">0</span>/72</div>
+                <div class="stat-item">时间: <span id="timer">0</span>s</div>
+            </div>
+        </div>
+
+        <div class="game-board" id="gameBoard"></div>
+
+        <div class="controls">
+            <button class="btn" id="restartBtn">🔄 重新开始</button>
+            <button class="btn" id="soundBtn">🔊 音效开</button>
+            <a href="../index.html" class="btn" id="homeBtn">🏠 返回主页</a>
+        </div>
+    </div>
+
+    <div class="win-message" id="winMessage">
+        <div class="win-content">
+            <h2 class="win-title">🎉 恭喜通关！ 🎉</h2>
+            <p>你用了 <span id="finalMoves">0</span> 次移动</p>
+            <p>耗时 <span id="finalTime">0</span> 秒</p>
+            <button class="btn" id="playAgainBtn" style="margin-top: 20px;">再玩一次</button>
+        </div>
+    </div>
+
+    <audio id="flipSound" preload="auto">
+        <source src="./audio/1.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="matchSound" preload="auto">
+        <source src="./audio/2.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="./audio/3.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图与待办 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .demo-wrapper {
+            font-family: "Microsoft YaHei", sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-card h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #ddd;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .box img.show {
+            display: block;
+        }
+
+        .box button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .box button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .box .prev {
+            left: 10px;
+        }
+
+        .box .next {
+            right: 10px;
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: #007bff;
+            transform: scale(1.2);
+        }
+
+        .add-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .add-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .add-form input:focus {
+            border-color: #007bff;
+        }
+
+        .add-form button,
+        .controls button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-form button:hover,
+        .controls button:hover {
+            background: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li:hover {
+            background: #e9ecef;
+        }
+
+        li.completed {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .controls button.secondary {
+            background: #6c757d;
+        }
+
+        .controls button.secondary:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">JS交互实战 <span class="highlight">🎠</span></h1>
+                <p class="greeting-subtitle">轮播图逻辑与待办事项管理</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-js"></i> JavaScript</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="intro glass fade-in visible" style="padding: 0; overflow: hidden;">
+                    <div class="demo-wrapper">
+                        <div class="section-card">
+                            <h2>轮播图展示</h2>
+                            <div class="box" id="carouselBox">
+                                <img src="./image/car (1).jpg" class="show">
+                                <img src="./image/car (2).jpg">
+                                <img src="./image/car (3).jpg">
+                                <img src="./image/car (4).jpg">
+
+                                <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+                                <button class="next" onclick="moveSlide(1)">&#10095;</button>
+                                <div class="dots" id="carouselDots"></div>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <h2>待办事项列表</h2>
+                            <div class="add-form">
+                                <input type="text" id="newTask" placeholder="输入新任务..." />
+                                <button onclick="addTask()">添加</button>
+                            </div>
+                            <ul id="taskList">
+                            </ul>
+                            <div class="controls">
+                                <button class="secondary" onclick="clearCompleted()">清除已完成</button>
+                                <button class="secondary" onclick="deleteAll()">清空所有</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+
+    <script>
+        var slideIndex = 0;
+        var slides = document.querySelectorAll(".box img");
+        var dotsContainer = document.getElementById("carouselDots");
+
+        for (var i = 0; i < slides.length; i++) {
+            var span = document.createElement("span");
+            span.className = "dot";
+            if (i == 0) span.classList.add("active");
+            (function (idx) {
+                span.onclick = function () { showSlide(idx); };
+            })(i);
+            dotsContainer.appendChild(span);
+        }
+        var dots = document.querySelectorAll(".dot");
+
+        function showSlide(n) {
+            if (n >= slides.length) slideIndex = 0;
+            else if (n < 0) slideIndex = slides.length - 1;
+            else slideIndex = n;
+
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("show");
+                dots[i].classList.remove("active");
+            }
+            slides[slideIndex].classList.add("show");
+            dots[slideIndex].classList.add("active");
+        }
+
+        function moveSlide(n) {
+            showSlide(slideIndex + n);
+        }
+        setInterval(function () { moveSlide(1); }, 3000);
+
+        var todoList = [
+            { id: 1, title: "学习JavaScript", isCompleted: false },
+            { id: 2, title: "完成作业", isCompleted: true },
+            { id: 3, title: "复习HTML/CSS", isCompleted: false }
+        ];
+
+        function renderTodos() {
+            var ul = document.getElementById("taskList");
+            ul.innerHTML = "";
+            todoList.forEach(function (item, index) {
+                var li = document.createElement("li");
+                var spanText = document.createElement("span");
+                spanText.textContent = item.title;
+                li.appendChild(spanText);
+
+                if (item.isCompleted) li.classList.add("completed");
+                li.onclick = function () {
+                    todoList[index].isCompleted = !todoList[index].isCompleted;
+                    renderTodos();
+                };
+
+                ul.appendChild(li);
+            });
+        }
+
+        function addTask() {
+            var input = document.getElementById("newTask");
+            if (input.value.trim() === "") return;
+            todoList.push({ id: Date.now(), title: input.value, isCompleted: false });
+            input.value = "";
+            renderTodos();
+        }
+
+        function clearCompleted() {
+            todoList = todoList.filter(function (t) { return !t.isCompleted; });
+            renderTodos();
+        }
+
+        function deleteAll() {
+            if (confirm("确定要清空所有任务吗？")) {
+                todoList = [];
+                renderTodos();
+            }
+        }
+        renderTodos();
+    </script>
+</body>
+
+</html>

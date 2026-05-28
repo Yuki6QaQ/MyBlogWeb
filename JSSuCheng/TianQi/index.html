@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气预报查询 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .result-container {
+            width: 100%;
+            min-height: 500px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .weather-app-wrapper {
+            font-family: "Microsoft YaHei", sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .weather-app-wrapper h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-box input:focus {
+            border-color: #007bff;
+        }
+
+        .search-box button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-box button:hover {
+            background-color: #0056b3;
+        }
+
+        .weather-result {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .weather-result h2 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .temp-box {
+            font-size: 48px;
+            color: #007bff;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        #weatherDesc {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-around;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .info-row b {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">JS 天气查询 <span class="highlight">🌤️</span></h1>
+                <p class="greeting-subtitle">API 数据获取与动态 DOM 渲染实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-js"></i> JavaScript</span>
+                    <span class="meta-tag"><i class="fas fa-cloud-sun"></i> API 交互</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="intro glass fade-in visible" style="padding: 0; overflow: hidden;">
+                    <div class="result-container">
+                        <div class="weather-app-wrapper">
+                            <h1>天气预报查询</h1>
+                            <div class="search-box">
+                                <input type="text" id="cityInput" placeholder="输入城市名，如：北京" />
+                                <button onclick="getWeather()">查询</button>
+                            </div>
+                            <div class="weather-result" id="weatherResult" style="display: none;">
+                                <h2 id="cityName"></h2>
+                                <div class="temp-box">
+                                    <span id="temperature"></span>
+                                </div>
+                                <p id="weatherDesc"></p>
+                                <div class="info-row">
+                                    <span>湿度: <b id="humidity"></b></span>
+                                    <span>风速: <b id="windSpeed"></b></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script src="script.js"></script>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>

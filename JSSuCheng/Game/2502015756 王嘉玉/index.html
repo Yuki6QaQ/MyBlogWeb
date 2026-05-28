@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>像素鸟小游戏</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="header-row">
+      <div class="title">像素鸟 · Pixel Bird</div>
+      <a href="../index.html" class="home-btn">返回主页</a>
+    </div>
+
+    <div class="hud" aria-label="hud">
+      <div><span class="k">分数：</span><span class="v" id="score">0</span></div>
+      <div><span class="k">最佳：</span><span class="v" id="best">0</span></div>
+    </div>
+
+    <div class="board" id="board" role="application" aria-label="pixel bird game">
+      <canvas id="game" width="420" height="700"></canvas>
+
+      <div id="overlay" class="overlay">
+        <div class="card">
+          <div id="overlayTitle" class="overlayTitle">像素鸟</div>
+          <div id="overlayText" class="overlayText">
+            点击画面 / 按【空格】跳跃
+            按【Enter】开始
+            按【R】重开
+
+            小提示：别碰管道；通过中间空隙得分。
+          </div>
+        </div>
+      </div>
+      <div id="spark" class="spark"></div>
+    </div>
+
+    <div class="controls">操作：空格/点击=跳跃；Enter=开始；R=重开</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

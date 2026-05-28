@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1a1a1a;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    padding-top: 20px;
+    user-select: none;
+}
+
+h1 {
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+}
+
+#game-container {
+    position: relative;
+    margin-top: 10px;
+}
+
+#game {
+    width: 600px;
+    height: 700px;
+    background: #222;
+    border: 3px solid #4fc3f7;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#paddle {
+    width: 100px;
+    height: 15px;
+    background: #4fc3f7;
+    position: absolute;
+    bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #4fc3f7;
+    transition: background 0.2s;
+}
+
+.ball {
+    width: 20px;
+    height: 20px;
+    background: #ffeb3b;
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 0 8px #ffeb3b;
+}
+
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10;
+    display: none;
+}
+
+#ui-layer.active {
+    display: flex;
+}
+
+#start-btn,
+#restart-btn {
+    padding: 15px 40px;
+    font-size: 24px;
+    background: #4fc3f7;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.1s, background 0.2s;
+}
+
+#start-btn:hover,
+#restart-btn:hover {
+    background: #29b6f6;
+    transform: scale(1.05);
+}
+
+#final-score {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #ffeb3b;
+}
+
+#hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 600px;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+#tips {
+    margin-top: 5px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+#home-btn {
+    padding: 8px 20px;
+    background: #ff5252;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.2s;
+    font-size: 16px;
+}
+
+#home-btn:hover {
+    background: #ff1744;
+}

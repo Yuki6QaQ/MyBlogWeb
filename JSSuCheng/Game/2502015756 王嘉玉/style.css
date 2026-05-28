@@ -1,0 +1,182 @@
+:root {
+    --bg: #0b1020;
+    --panel: #0f1730;
+    --text: #e8eefc;
+    --muted: #9fb0da;
+    --accent: #ffd166;
+    --pipe: #34d399;
+    --pipeDark: #1f7a51;
+    --bird: #ffcc4d;
+    --birdDark: #e1a93a;
+    --danger: #ff4d6d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    background: radial-gradient(1200px 800px at 50% 10%, #15224a 0%, var(--bg) 45%, #050811 100%);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 16px;
+}
+
+.wrap {
+    width: min(92vw, 420px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.title {
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: .5px;
+    font-size: 18px;
+    text-align: center;
+    opacity: .95;
+    flex-grow: 1;
+}
+
+.home-btn {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s;
+}
+
+.home-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--accent);
+}
+
+.board {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 420 / 700;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0));
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.card {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px 14px;
+    border-radius: 12px;
+    background: rgba(15, 23, 48, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.overlayTitle {
+    font-size: 22px;
+    font-weight: 1000;
+    margin-bottom: 6px;
+    color: var(--accent);
+}
+
+.overlayText {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--muted);
+    white-space: pre-line;
+}
+
+.hud {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-weight: 800;
+    opacity: .95;
+}
+
+.hud .k {
+    color: rgba(159, 176, 218, 0.95);
+    font-weight: 800;
+}
+
+.hud .v {
+    color: var(--accent);
+}
+
+.controls {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(159, 176, 218, 0.95);
+}
+
+.spark {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    margin-top: -4px;
+    border-radius: 999px;
+    background: var(--accent);
+    opacity: .0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+.spark.show {
+    animation: spark 600ms ease-out;
+}
+
+@keyframes spark {
+    0% {
+        opacity: 0;
+        transform: scale(0.4)
+    }
+
+    15% {
+        opacity: 1;
+        transform: scale(1.1)
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(2.0)
+    }
+}

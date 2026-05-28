@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .login-wrapper {
+            font-family: "Microsoft YaHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 2rem 0;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #0056b3;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            min-height: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title JSRuMen">JS入门实战 <span class="highlight">🔐</span></h1>
+                <p class="greeting-subtitle">表单验证与交互逻辑实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-js"></i> JavaScript</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="intro glass fade-in visible" style="padding: 0; overflow: hidden;">
+                    <div class="login-wrapper">
+                        <div class="login-container">
+                            <h2>用户登录</h2>
+                            <form id="loginForm">
+                                <div class="form-group">
+                                    <label for="username">用户名：</label>
+                                    <input type="text" id="username" name="username" required />
+                                    <div id="usernameError" class="error"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">密码：</label>
+                                    <input type="password" id="password" name="password" required />
+                                    <div id="passwordError" class="error"></div>
+                                </div>
+                                <button type="button" class="login-btn" onclick="validateLogin()">登录</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="js/ui.js"></script>
+
+    <script>
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const usernameError = document.getElementById("usernameError");
+        const passwordError = document.getElementById("passwordError");
+
+        function validateUsername(username) {
+            if (username.length < 6 || username.length > 16) {
+                return false;
+            }
+            const regex = /^[a-zA-Z_]\w*$/;
+            if (!regex.test(username)) {
+                return false;
+            }
+            return true;
+        }
+
+        function validateLogin() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            usernameError.textContent = "";
+            passwordError.textContent = "";
+
+            if (!validateUsername(username)) {
+                usernameError.textContent = "用户名必须是6-16位的字母、数字、下划线，且第一位不能是数字";
+                return;
+            }
+
+            if (username === "admin123" && password === "123456") {
+                alert("登录成功");
+            } else {
+                alert("用户名密码错误！");
+            }
+        }
+    </script>
+</body>
+
+</html>

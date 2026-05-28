@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页时钟与计算器 - Yuki的博客</title>
+
+    <!-- 复用主站 CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/content.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 本项目专属样式 (内部样式或链接外部 style.css) -->
+    <style>
+        /* 详情页专属微调 */
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        /* 项目内容容器样式 - 替代原本 body 的样式 */
+        .project-content-wrapper {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #fff;
+            /* 或者透明，取决于玻璃拟态效果 */
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* 引入原本的 style.css 内容，但限定作用域，避免污染全局 */
+        /* 这里直接嵌入关键样式，建议实际项目中保留 link 但修改 style.css 的选择器 */
+        .clock-app-container {
+            padding: 20px;
+        }
+
+        .clock-app-container h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .clock-app-container .clock {
+            font-size: 3rem;
+            text-align: center;
+            color: #007bff;
+            margin: 20px 0;
+        }
+
+        .clock-app-container .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .clock-app-container .btn {
+            padding: 15px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .clock-app-container .btn:hover {
+            background: #e9ecef;
+        }
+
+        .clock-app-container .btn.operator {
+            background: #007bff;
+            color: white;
+        }
+
+        .clock-app-container .btn.operator:hover {
+            background: #0056b3;
+        }
+
+        .clock-app-container .btn.equals {
+            background: #28a745;
+            color: white;
+        }
+
+        .clock-app-container .btn.equals:hover {
+            background: #218838;
+        }
+
+        .clock-app-container .btn.clear {
+            background: #dc3545;
+            color: white;
+        }
+
+        .clock-app-container .btn.clear:hover {
+            background: #c82333;
+        }
+
+        .clock-app-container .display {
+            width: 100%;
+            height: 60px;
+            font-size: 1.8rem;
+            text-align: right;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- 左侧边栏 -->
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <!-- 右侧内容区 -->
+        <div class="right-content">
+
+            <!-- 返回按钮 -->
+            <a href="../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <!-- 项目标题头部 -->
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">JS 速成实战 <span class="highlight">⏱️</span></h1>
+                <p class="greeting-subtitle">原生 JavaScript 实现网页时钟与简易计算器</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-js"></i> JavaScript</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <!-- 核心展示区域 -->
+            <section class="section">
+                <div class="intro glass fade-in visible" style="padding: 0; overflow: hidden;">
+
+                    <!-- 
+                       方案 A: 直接嵌套 HTML (适合简单项目) 
+                       注意：我们将原本的 body 内容移到了这里，并加上了特定的类名以避免样式冲突
+                    -->
+                    <div class="project-content-wrapper clock-app-container">
+                        <div class="section-card" style="box-shadow: none; background: transparent;">
+                            <h2>网页时钟</h2>
+                            <div class="clock" id="clock"></div>
+                        </div>
+
+                        <div class="section-card" style="box-shadow: none; background: transparent; margin-top: 30px;">
+                            <h2>计算器</h2>
+                            <div class="display" id="display">0</div>
+                            <div class="calculator">
+                                <button class="btn clear" onclick="clearDisplay()">C</button>
+                                <button class="btn operator" onclick="appendOperator('/')">/</button>
+                                <button class="btn operator" onclick="appendOperator('*')">×</button>
+                                <button class="btn operator" onclick="appendOperator('-')">-</button>
+
+                                <button class="btn" onclick="appendNumber('7')">7</button>
+                                <button class="btn" onclick="appendNumber('8')">8</button>
+                                <button class="btn" onclick="appendNumber('9')">9</button>
+                                <button class="btn operator" onclick="appendOperator('+')">+</button>
+
+                                <button class="btn" onclick="appendNumber('4')">4</button>
+                                <button class="btn" onclick="appendNumber('5')">5</button>
+                                <button class="btn" onclick="appendNumber('6')">6</button>
+                                <button class="btn" onclick="appendOperator('.')">.</button>
+
+                                <button class="btn" onclick="appendNumber('1')">1</button>
+                                <button class="btn" onclick="appendNumber('2')">2</button>
+                                <button class="btn" onclick="appendNumber('3')">3</button>
+                                <button class="btn equals" onclick="calculate()">=</button>
+
+                                <button class="btn" onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+                                <!-- 修正了原本计算器布局中 0 的位置，使其更美观 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 引入本项目的 JS 逻辑 -->
+                    <script src="script.js"></script>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>
