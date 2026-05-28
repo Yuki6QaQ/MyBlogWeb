@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数码 - 淘趣网</title>
+    <style>
+        /* --- 全局重置 (与首页保持一致) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- 布局容器 --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        /* --- 顶部栏 --- */
+        .top-bar {
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            color: #6c6c6c;
+            padding: 8px 0;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-links a {
+            margin-left: 15px;
+            transition: color 0.2s;
+        }
+
+        .top-links a:hover {
+            color: #ff5000;
+        }
+
+        /* --- 头部搜索 --- */
+        .header-main {
+            background-color: #fff;
+            padding: 20px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff5000;
+            margin-right: 40px;
+            white-space: nowrap;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            border: 2px solid #ff5000;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #ff5000;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-button:hover {
+            background-color: #e04600;
+        }
+
+        /* --- 面包屑导航 --- */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a:hover {
+            color: #ff5000;
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 5px;
+            color: #ccc;
+        }
+
+        /* --- 分类标题区 --- */
+        .category-header {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            border-left: 5px solid #ff5000;
+            padding-left: 15px;
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .sort-item {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .sort-item.active {
+            background-color: #ff5000;
+            color: white;
+        }
+
+        .sort-item:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+
+        /* --- 商品网格区域 --- */
+        .goods-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 500px;
+        }
+
+        .grid-container {
+            display: grid;
+            /* 响应式网格：最小180px，自动填充 */
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 悬停动画效果：边框变色、上浮、阴影 */
+        .product-card:hover {
+            border-color: #ff5000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #f9f9f9;
+            display: block;
+        }
+
+        .product-info {
+            padding: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-price {
+            color: #ff5000;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price span {
+            font-size: 0.8rem;
+        }
+
+        .product-name {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 36px;
+            line-height: 18px;
+            flex-grow: 1;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #999;
+            margin-top: auto;
+        }
+
+        /* --- 底部 --- */
+        .footer-simple {
+            text-align: center;
+            padding: 30px 0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: #ff5000;
+            color: #ff5000;
+        }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                margin-right: 0;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: none;
+            }
+
+            .grid-container {
+                /* 移动端强制2列 */
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 顶部栏 -->
+    <div class="top-bar">
+        <div class="container">
+            <div>你好，请登录 &nbsp; <a href="#" style="color:#ff5000">免费注册</a></div>
+            <div class="top-links">
+                <a href="../index.html">返回首页</a>
+                <a href="#">我的淘趣</a>
+                <a href="#">购物车</a>
+                <a href="#">收藏夹</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 头部搜索 -->
+    <div class="header-main">
+        <div class="container header-content">
+            <a href="../index.html" class="logo">淘趣网</a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索手机、电脑、相机...">
+                <button class="search-button">搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a> <span>&gt;</span> <a href="#">数码家电</a> <span>&gt;</span> 全部商品
+        </div>
+
+        <!-- 分类标题与排序 -->
+        <div class="category-header">
+            <h1 class="category-title">数码精选</h1>
+            <div class="sort-options">
+                <div class="sort-item active">综合排序</div>
+                <div class="sort-item">销量优先</div>
+                <div class="sort-item">价格从低到高</div>
+                <div class="sort-item">新品上市</div>
+            </div>
+        </div>
+
+        <!-- 商品列表区域 -->
+        <section class="goods-section">
+            <div class="grid-container">
+                <!-- 商品 1: 智能手机 -->
+                <div class="product-card">
+                    <img src="https://2d.zol-img.com.cn/product/270_500x375/849/ce84ZrOzhggic.png" alt="智能手机"
+                        class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>5999.00</div>
+                        <div class="product-name">最新款智能手机 5G全网通 高清拍照 长续航</div>
+                        <div class="product-meta"><span>已售 1000+</span><span>旗舰店</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 2: 笔记本电脑 -->
+                <div class="product-card">
+                    <img src="https://mercrt-fd.zol-img.com.cn/t_s640x2000/g7/M00/0D/06/ChMkLGZceu6ILVDaAAUnctWAKYYAAe2cwMuikcABSeK073.png"
+                        alt="笔记本电脑" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>8999.00</div>
+                        <div class="product-name">高性能笔记本电脑 轻薄本 办公游戏两用</div>
+                        <div class="product-meta"><span>已售 500+</span><span>官方店</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 3: 无线耳机 -->
+                <div class="product-card">
+                    <img src="https://img14.360buyimg.com/pop/jfs/t1/54869/20/24835/374239/66a70306Fed9897f5/554dd5892bb87101.png"
+                        alt="耳机" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>1299.00</div>
+                        <div class="product-name">无线降噪耳机 头戴式 蓝牙5.3 超长续航</div>
+                        <div class="product-meta"><span>已售 2万+</span><span>运费险</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 4: 微单相机 -->
+                <div class="product-card">
+                    <img src="https://imgservice.suning.cn/uimg1/b2c/image/1QjAShIUUHQiUGTsXM4cvQ.jpg" alt="相机"
+                        class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>4599.00</div>
+                        <div class="product-name">微单相机 入门级 4K视频 防抖镜头套装</div>
+                        <div class="product-meta"><span>已售 800+</span><span>赠品</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 5: 智能手表 -->
+                <div class="product-card">
+                    <img src="https://img.alicdn.com/i4/2188649872/O1CN01sHtgdC2MnQX0nlO6S_!!2188649872.jpg" alt="手表"
+                        class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>299.00</div>
+                        <div class="product-name">智能手表 运动监测 心率血氧 防水设计</div>
+                        <div class="product-meta"><span>已售 5000+</span><span>极速达</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 6: 机械键盘 -->
+                <div class="product-card">
+                    <img src="https://ts1.tc.mm.bing.net/th/id/R-C.51be7bcf855316db057a76d6e543024a?rik=%2fflAl%2f4G64HI8g&riu=http%3a%2f%2fimg13.360buyimg.com%2fn0%2fjfs%2ft19411%2f258%2f1949954012%2f361259%2f6d20bd17%2f5ae013f7Ne668966f.jpg&ehk=k37vBK71qISNZSl%2fgw8Go5VtpiuvXUBb49haS4LFNKE%3d&risl=&pid=ImgRaw&r=0"
+                        alt="键盘" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>199.00</div>
+                        <div class="product-name">机械键盘 青轴 游戏办公 RGB背光</div>
+                        <div class="product-meta"><span>已售 1万+</span><span>包邮</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 7: 平板电脑 -->
+                <div class="product-card">
+                    <img src="https://ts2.tc.mm.bing.net/th/id/OIP-C.5keQsIOhM3F4J6jzwHrWugHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+                        alt="平板" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>3999.00</div>
+                        <div class="product-name">平板电脑 120Hz高刷 学习娱乐办公</div>
+                        <div class="product-meta"><span>已售 300+</span><span>包邮</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 8: 蓝牙音箱 -->
+                <div class="product-card">
+                    <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.dTuVKLKjnpfwS7Tm5882VQHaE8?w=266&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+                        alt="音箱" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>899.00</div>
+                        <div class="product-name">蓝牙音箱 重低音 户外防水 长续航</div>
+                        <div class="product-meta"><span>已售 4000+</span><span>运费险</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer-simple">
+            <p>© 2026 淘趣网 版权所有</p>
+            <a href="../index.html" class="back-btn">&larr; 返回首页</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

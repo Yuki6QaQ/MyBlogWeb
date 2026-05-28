@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 3D 变换示例 - 最终优化版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, "Microsoft YaHei", sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #2c3e50;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: 300px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-stage {
+            height: 220px;
+            background: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-panel {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background-color: #3498db;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .info-text code {
+            background-color: #edf2f7;
+            color: #e53e3e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 12px;
+            margin: 0 2px;
+        }
+
+        .cube {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .face {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+            opacity: 0.9;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .front {
+            background: #3498db;
+            transform: translateZ(40px);
+        }
+
+        .back {
+            background: #e74c3c;
+            transform: rotateY(180deg) translateZ(40px);
+        }
+
+        .right {
+            background: #f1c40f;
+            transform: rotateY(90deg) translateZ(40px);
+        }
+
+        .left {
+            background: #2ecc71;
+            transform: rotateY(-90deg) translateZ(40px);
+        }
+
+        .top {
+            background: #9b59b6;
+            transform: rotateX(90deg) translateZ(40px);
+        }
+
+        .bottom {
+            background: #34495e;
+            transform: rotateX(-90deg) translateZ(40px);
+        }
+
+        .card:nth-child(1):hover .cube {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+
+        .card:nth-child(1) .cube {
+            transform: rotateX(-20deg) rotateY(-20deg);
+        }
+
+        .card:nth-child(2):hover .cube {
+            transform: rotateX(180deg) rotateY(180deg) rotateZ(45deg);
+        }
+
+        .card:nth-child(3):hover .cube {
+            transform: rotateY(180deg);
+        }
+
+        .face.hidden-back {
+            backface-visibility: hidden;
+            background: #95a5a6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>CSS 3D Transform 核心概念</h1>
+
+    <div class="container">
+        <div class="card">
+            <div class="demo-stage">
+                <div class="cube">
+                    <div class="face front">前</div>
+                    <div class="face back">后</div>
+                    <div class="face right">右</div>
+                    <div class="face left">左</div>
+                    <div class="face top">上</div>
+                    <div class="face bottom">下</div>
+                </div>
+            </div>
+            <div class="info-panel">
+                <h3 class="info-title">透视 (Perspective)</h3>
+                <p class="info-text">
+                    <code>perspective</code> 属性决定了观察者距离 z=0 平面的距离。
+                    <br><br>
+                    数值越小，透视效果越强烈（近大远小明显）；数值越大，效果越接近平面。它是实现真实 3D 感的基础。
+                </p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="demo-stage">
+                <div class="cube">
+                    <div class="face front">前</div>
+                    <div class="face back">后</div>
+                    <div class="face right">右</div>
+                    <div class="face left">左</div>
+                    <div class="face top">上</div>
+                    <div class="face bottom">下</div>
+                </div>
+            </div>
+            <div class="info-panel">
+                <h3 class="info-title">3D 旋转 (Rotate)</h3>
+                <p class="info-text">
+                    通过 <code>rotateX()</code>, <code>rotateY()</code>, <code>rotateZ()</code> 可以让元素在三维空间中绕轴旋转。
+                    <br><br>
+                    注意：父元素必须设置 <code>transform-style: preserve-3d</code>，子元素才能保持立体结构而不被压扁。
+                </p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="demo-stage">
+                <div class="cube">
+                    <div class="face front">正面</div>
+                    <div class="face back hidden-back">背面</div>
+                    <div class="face right">右</div>
+                    <div class="face left">左</div>
+                    <div class="face top">上</div>
+                    <div class="face bottom">下</div>
+                </div>
+            </div>
+            <div class="info-panel">
+                <h3 class="info-title">背面可见性</h3>
+                <p class="info-text">
+                    <code>backface-visibility: hidden</code> 用于控制元素旋转到背面时是否可见。
+                    <br><br>
+                    当值为 <code>hidden</code> 时，元素背对观察者时会完全透明。这常用于制作完美的卡片翻转效果。
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

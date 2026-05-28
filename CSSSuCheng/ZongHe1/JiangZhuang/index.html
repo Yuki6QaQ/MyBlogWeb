@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奖状展示 - 个人作品</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../css/content.css">
+    <link rel="stylesheet" href="../../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        /* 保留：仅用于对齐/返回按钮等“少量 UI 微调”；作业主体样式已在 style.css */
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <!-- 导航栏：保持一致（MuBan UI）-->
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- 左侧边栏：极简模式（MuBan UI）-->
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <!-- 右侧内容区：作业内容直接展示（不嵌入/不 iframe）-->
+        <div class="right-content">
+            <a href="../../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">奖状展示 <span class="highlight">👻</span></h1>
+                <p class="greeting-subtitle">CSS 样式排版 / 字体与背景效果</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fas fa-code"></i> HTML5</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+
+                <!-- 一等奖 -->
+                <div class="section-card">
+                    <h2 class="card-title">一等大嘴奖</h2>
+                    <div class="model first">
+                        <div class="content">
+                            <p><span>林兴裕</span>同学：</p>
+                            <p>在第10086届中国程序猿吐槽大会上，过关斩将，荣获大会“一等大嘴奖”。</p>
+                            <p> 特发此证，以资证明！</p>
+                            <p>中国程序猿吐槽大会组委会</p>
+                            <p> 2026年12月6日</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 二等奖 -->
+                <div class="section-card">
+                    <h2 class="card-title">二等大嘴奖</h2>
+                    <div class="model second">
+                        <div class="content">
+                            <p><span>林兴裕</span>同学：</p>
+                            <p>在第10086届中国程序猿吐槽大会上，过关斩将，荣获大会“二等大嘴奖”。</p>
+                            <p> 特发此证，以资证明！</p>
+                            <p>中国程序猿吐槽大会组委会</p>
+                            <p> 2026年12月6日</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 三等奖 -->
+                <div class="section-card">
+                    <h2 class="card-title">三等大嘴奖</h2>
+                    <div class="model third">
+                        <div class="content">
+                            <p><span>林兴裕</span>同学：</p>
+                            <p>在第10086届中国程序猿吐槽大会上，过关斩将，荣获大会“三等大嘴奖”。</p>
+                            <p> 特发此证，以资证明！</p>
+                            <p>中国程序猿吐槽大会组委会</p>
+                            <p> 2026年12月6日</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../../js/ui.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

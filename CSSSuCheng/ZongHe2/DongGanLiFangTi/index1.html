@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 2D 变换示例</title>
+    <style>
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #003366;
+        }
+
+        /* 容器 - 用于布局四个变换 */
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 每个变换的卡片 */
+        .card {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            /* 添加过渡动画 */
+        }
+
+        /* 正常状态的方块 */
+        .normal {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* 旋转效果 */
+        .rotate {
+            width: 100px;
+            height: 100px;
+            background-color: #FF9800;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        /* 移动效果 */
+        .translate {
+            width: 100px;
+            height: 100px;
+            background-color: #2196F3;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translate(50px, 50px);
+        }
+
+        /* 缩放效果 */
+        .scale {
+            width: 100px;
+            height: 100px;
+            background-color: #9C27B0;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+
+        /* 倾斜效果 */
+        .skew {
+            width: 100px;
+            height: 100px;
+            background-color: #F44336;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) skew(20deg, 10deg);
+        }
+
+        /* 卡片标题 */
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #003366;
+        }
+
+        /* 鼠标悬停效果 - 让方块变大 */
+        .card:hover .normal,
+        .card:hover .rotate,
+        .card:hover .translate,
+        .card:hover .scale,
+        .card:hover .skew {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>CSS 2D 变换效果演示</h1>
+
+    <div class="container">
+        <!-- 正常 -->
+        <div class="card">
+            <div class="card-title">正常</div>
+            <div class="normal"></div>
+        </div>
+
+        <!-- 旋转 -->
+        <div class="card">
+            <div class="card-title">旋转</div>
+            <div class="rotate"></div>
+        </div>
+
+        <!-- 移动 -->
+        <div class="card">
+            <div class="card-title">移动</div>
+            <div class="translate"></div>
+        </div>
+
+        <!-- 缩放 -->
+        <div class="card">
+            <div class="card-title">缩放</div>
+            <div class="scale"></div>
+        </div>
+
+        <!-- 倾斜 -->
+        <div class="card">
+            <div class="card-title">倾斜</div>
+            <div class="skew"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

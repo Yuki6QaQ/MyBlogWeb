@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动感立方体 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../css/content.css">
+    <link rel="stylesheet" href="../../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        #homework-wrapper {
+            width: 100%;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        #homework-wrapper .hw-main-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+
+        #homework-wrapper .hw-section-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 40px;
+            animation: hwFadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        @keyframes hwFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #homework-wrapper .hw-section-title {
+            font-size: 1.5rem;
+            color: #1e40af;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        #homework-wrapper .idx1-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #homework-wrapper .idx1-card {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        #homework-wrapper .idx1-normal {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #homework-wrapper .idx1-rotate {
+            width: 100px;
+            height: 100px;
+            background-color: #FF9800;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        #homework-wrapper .idx1-translate {
+            width: 100px;
+            height: 100px;
+            background-color: #2196F3;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translate(50px, 50px);
+        }
+
+        #homework-wrapper .idx1-scale {
+            width: 100px;
+            height: 100px;
+            background-color: #9C27B0;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+
+        #homework-wrapper .idx1-skew {
+            width: 100px;
+            height: 100px;
+            background-color: #F44336;
+            margin: 20px auto;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) skew(20deg, 10deg);
+        }
+
+        #homework-wrapper .idx1-card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #003366;
+        }
+
+        #homework-wrapper .idx1-card:hover .idx1-normal,
+        #homework-wrapper .idx1-card:hover .idx1-rotate,
+        #homework-wrapper .idx1-card:hover .idx1-translate,
+        #homework-wrapper .idx1-card:hover .idx1-scale,
+        #homework-wrapper .idx1-card:hover .idx1-skew {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        #homework-wrapper .idx2-h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        #homework-wrapper .idx2-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #homework-wrapper .idx2-card {
+            width: 300px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+
+        #homework-wrapper .idx2-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        #homework-wrapper .idx2-demo-stage {
+            height: 220px;
+            background: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            border-bottom: 1px solid #eee;
+        }
+
+        #homework-wrapper .idx2-info-panel {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #homework-wrapper .idx2-info-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        #homework-wrapper .idx2-info-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background-color: #3498db;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        #homework-wrapper .idx2-info-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        #homework-wrapper .idx2-info-text code {
+            background-color: #edf2f7;
+            color: #e53e3e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 12px;
+            margin: 0 2px;
+        }
+
+        #homework-wrapper .idx2-cube {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        #homework-wrapper .idx2-face {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+            opacity: 0.9;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        #homework-wrapper .idx2-front {
+            background: #3498db;
+            transform: translateZ(40px);
+        }
+
+        #homework-wrapper .idx2-back {
+            background: #e74c3c;
+            transform: rotateY(180deg) translateZ(40px);
+        }
+
+        #homework-wrapper .idx2-right {
+            background: #f1c40f;
+            transform: rotateY(90deg) translateZ(40px);
+        }
+
+        #homework-wrapper .idx2-left {
+            background: #2ecc71;
+            transform: rotateY(-90deg) translateZ(40px);
+        }
+
+        #homework-wrapper .idx2-top {
+            background: #9b59b6;
+            transform: rotateX(90deg) translateZ(40px);
+        }
+
+        #homework-wrapper .idx2-bottom {
+            background: #34495e;
+            transform: rotateX(-90deg) translateZ(40px);
+        }
+
+        #homework-wrapper .idx2-card:nth-child(1):hover .idx2-cube {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+
+        #homework-wrapper .idx2-card:nth-child(1) .idx2-cube {
+            transform: rotateX(-20deg) rotateY(-20deg);
+        }
+
+        #homework-wrapper .idx2-card:nth-child(2):hover .idx2-cube {
+            transform: rotateX(180deg) rotateY(180deg) rotateZ(45deg);
+        }
+
+        #homework-wrapper .idx2-card:nth-child(3):hover .idx2-cube {
+            transform: rotateY(180deg);
+        }
+
+        #homework-wrapper .idx2-face.hidden-back {
+            backface-visibility: hidden;
+            background: #95a5a6;
+        }
+
+        #homework-wrapper .idx3-play-ground {
+            width: 600px;
+            height: 350px;
+            border: solid 1px rgb(176, 71, 71);
+            position: relative;
+            margin: 0 auto;
+            background-color: #fff;
+            max-width: 100%;
+        }
+
+        #homework-wrapper .idx3-ball {
+            background: rgb(66, 174, 237);
+            border-radius: 50%;
+            position: absolute;
+            animation: idx3-ball-anim 7s ease-in-out infinite;
+        }
+
+        @keyframes idx3-ball-anim {
+            from {
+                width: 50px;
+                height: 50px;
+                left: 30px;
+                top: 130px;
+            }
+
+            24% {
+                width: 25px;
+                height: 25px;
+                left: 130px;
+                top: 20px;
+            }
+
+            50% {
+                width: 100px;
+                height: 100px;
+                left: 240px;
+                top: 100px;
+            }
+
+            73% {
+                width: 80px;
+                height: 80px;
+                left: 360px;
+                top: 200px;
+            }
+
+            to {
+                width: 150px;
+                height: 150px;
+                left: 420px;
+                top: 70px;
+            }
+        }
+
+        #homework-wrapper .idx4-con {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            margin: 0 auto;
+            background-color: #222;
+            border-radius: 10px;
+        }
+
+        #homework-wrapper .idx4-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+
+        #homework-wrapper .idx4-side {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            line-height: 200px;
+            text-align: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            opacity: 0.95;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) inset;
+            background-size: cover;
+            background-position: center;
+        }
+
+        #homework-wrapper .idx4-front {
+            background-image: url('./img/Handsome\ \(1\).jpg');
+            transform: translateZ(100px);
+        }
+
+        #homework-wrapper .idx4-back {
+            background-image: url('./img/Handsome\ \(3\).jpg');
+            transform: rotateY(180deg) translateZ(100px);
+        }
+
+        #homework-wrapper .idx4-left {
+            background-image: url('./img/Handsome\ \(4\).jpg');
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+
+        #homework-wrapper .idx4-right {
+            background-image: url('./img/Meinv1.jpg');
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+        #homework-wrapper .idx4-top {
+            background-image: url('./img/Meinv2.jpg');
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        #homework-wrapper .idx4-bottom {
+            background-image: url('./img/Meinv3.jpg');
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">动感立方体 <span class="highlight">🧊</span></h1>
+                <p class="greeting-subtitle">CSS 2D/3D 变换、动画与鼠标交互实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div id="homework-wrapper">
+                    <div class="hw-main-container">
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">1. CSS 2D 变换示例</h2>
+                            <div class="idx1-container">
+                                <div class="idx1-card">
+                                    <div class="idx1-card-title">正常</div>
+                                    <div class="idx1-normal"></div>
+                                </div>
+                                <div class="idx1-card">
+                                    <div class="idx1-card-title">旋转</div>
+                                    <div class="idx1-rotate"></div>
+                                </div>
+                                <div class="idx1-card">
+                                    <div class="idx1-card-title">移动</div>
+                                    <div class="idx1-translate"></div>
+                                </div>
+                                <div class="idx1-card">
+                                    <div class="idx1-card-title">缩放</div>
+                                    <div class="idx1-scale"></div>
+                                </div>
+                                <div class="idx1-card">
+                                    <div class="idx1-card-title">倾斜</div>
+                                    <div class="idx1-skew"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">2. CSS 3D Transform 核心概念</h2>
+                            <h1 class="idx2-h1">3D 变换演示</h1>
+                            <div class="idx2-container">
+                                <div class="idx2-card">
+                                    <div class="idx2-demo-stage">
+                                        <div class="idx2-cube">
+                                            <div class="idx2-face idx2-front">前</div>
+                                            <div class="idx2-face idx2-back">后</div>
+                                            <div class="idx2-face idx2-right">右</div>
+                                            <div class="idx2-face idx2-left">左</div>
+                                            <div class="idx2-face idx2-top">上</div>
+                                            <div class="idx2-face idx2-bottom">下</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx2-info-panel">
+                                        <h3 class="idx2-info-title">透视 (Perspective)</h3>
+                                        <p class="idx2-info-text">
+                                            <code>perspective</code> 属性决定了观察者距离 z=0 平面的距离。
+                                            <br><br>
+                                            数值越小，透视效果越强烈（近大远小明显）；数值越大，效果越接近平面。它是实现真实 3D 感的基础。
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="idx2-card">
+                                    <div class="idx2-demo-stage">
+                                        <div class="idx2-cube">
+                                            <div class="idx2-face idx2-front">前</div>
+                                            <div class="idx2-face idx2-back">后</div>
+                                            <div class="idx2-face idx2-right">右</div>
+                                            <div class="idx2-face idx2-left">左</div>
+                                            <div class="idx2-face idx2-top">上</div>
+                                            <div class="idx2-face idx2-bottom">下</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx2-info-panel">
+                                        <h3 class="idx2-info-title">3D 旋转 (Rotate)</h3>
+                                        <p class="idx2-info-text">
+                                            通过 <code>rotateX()</code>, <code>rotateY()</code>, <code>rotateZ()</code>
+                                            可以让元素在三维空间中绕轴旋转。
+                                            <br><br>
+                                            注意：父元素必须设置 <code>transform-style: preserve-3d</code>，子元素才能保持立体结构而不被压扁。
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="idx2-card">
+                                    <div class="idx2-demo-stage">
+                                        <div class="idx2-cube">
+                                            <div class="idx2-face idx2-front">正面</div>
+                                            <div class="idx2-face idx2-back hidden-back">背面</div>
+                                            <div class="idx2-face idx2-right">右</div>
+                                            <div class="idx2-face idx2-left">左</div>
+                                            <div class="idx2-face idx2-top">上</div>
+                                            <div class="idx2-face idx2-bottom">下</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx2-info-panel">
+                                        <h3 class="idx2-info-title">背面可见性</h3>
+                                        <p class="idx2-info-text">
+                                            <code>backface-visibility: hidden</code> 用于控制元素旋转到背面时是否可见。
+                                            <br><br>
+                                            当值为 <code>hidden</code> 时，元素背对观察者时会完全透明。这常用于制作完美的卡片翻转效果。
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">3. 动画制作</h2>
+                            <div style="display: flex; justify-content: center;">
+                                <div class="idx3-play-ground">
+                                    <div class="idx3-ball"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">4. 3D 图片正方体 (鼠标跟随)</h2>
+                            <div style="display: flex; justify-content: center; padding: 20px 0;">
+                                <div class="idx4-con">
+                                    <div class="idx4-cube" id="idx4-cube">
+                                        <div class="idx4-side idx4-front"></div>
+                                        <div class="idx4-side idx4-back"></div>
+                                        <div class="idx4-side idx4-left"></div>
+                                        <div class="idx4-side idx4-right"></div>
+                                        <div class="idx4-side idx4-top"></div>
+                                        <div class="idx4-side idx4-bottom"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="text-align: center; color: #666; margin-top: 10px;">移动鼠标以旋转立方体</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../../../js/ui.js"></script>
+
+    <script>
+        const cube = document.getElementById('idx4-cube');
+        if (cube) {
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX;
+                const y = e.clientY;
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                const rotateY = ((x / windowWidth) - 0.5) * 360;
+                const rotateX = -((y / windowHeight) - 0.5) * 360;
+                cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人作品集汇总</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../css/content.css">
+    <link rel="stylesheet" href="../../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./index.css">
+
+    <style>
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">文本格式化 <span class="highlight">👻</span></h1>
+                <p class="greeting-subtitle">段落排版 / 字体与首字母效果 / 表达与图片布局</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fas fa-code"></i> HTML5</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <!-- 作业内容：原结构不变，只移入 MuBan UI 的内容区 -->
+            <section class="section">
+
+                <div id="section1" class="content-card">
+                    <h3 class="wbs1-headline">《天龙八部》节选</h3>
+                    <p class="wbs1-paragraph">
+                        练武厅东坐着二人。上首是个四十左右的中年道姑，铁青着脸，嘴唇紧闭。下首是个五十余岁的老者，右手捻着长须，神情甚是得意。两人的座位相距一丈有余，身后各站着二十余名男女弟子。西边一排椅子上坐着十余位宾客。东西双方的目光都集注于场中二人的角斗。
+                    </p>
+                </div>
+
+                <div id="section2" class="content-card">
+                    <div class="wbs2-container">
+                        <h3 class="c-header">
+                            <em>林兴裕</em> - 西双版纳致远规划设计有限公司 - 法定代表人/高管/股东...
+                        </h3>
+                        <div class="c-digest">
+                            <span class="wbs2-digest-time">2025年5月29日</span>
+                            <em>林兴裕</em> 100万(元) 2021-09-27 云南省西双版纳傣族自治州勐海县 开业 所有任职企业 3 序号
+                            企业名称 职务 注册资本 成立时间 地区
+                            状态 1 西双版纳
+                            西双版纳致远规划设计有限公司 法定代表人
+                            股东 经理,执行董事 100万(元) 2018-01-30 云南省西双版纳傣族自治州勐海县 开业 2 隆顺商贸 隆顺商贸(勐腊)有限公司 股东 经理 1,000...
+                        </div>
+                        <div class="c-footer">
+                            <a href="https://aiqicha.baidu.com/person?personId=7d10b1c7d183810982f86c4623da0296"
+                                class="wbs2-aiqicha">
+                                <img src="./img/logo.jpg" alt="爱企查">爱企查
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section3" class="content-card">
+                    <div class="wbs3-product-card">
+                        <div class="wbs3-phone-img">
+                            <img src="./img/iphone.png" alt="HUAWEI Pura X Max">
+                        </div>
+                        <div class="wbs3-content">
+                            <h1 class="wbs3-title">HUAWEI Pura X Max</h1>
+                            <h2 class="wbs3-subtitle">阔感全开，沉浸式拉满</h2>
+                            <p class="wbs3-tagline">双面阔型屏 · 科学驱动艺术</p>
+
+                            <div class="wbs3-price">
+                                <span>¥</span>9999
+                                <span class="wbs3-original-price">¥11999</span>
+                            </div>
+                            <a href="https://www.vmall.com/product/comdetail/index.html?prdId=10086621059876"
+                                class="wbs3-btn" target="_blank">
+                                立即抢购
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../../js/ui.js"></script>
+</body>
+
+</html>

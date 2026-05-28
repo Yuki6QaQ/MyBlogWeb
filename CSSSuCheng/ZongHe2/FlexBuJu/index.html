@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex布局实战 - Yuki的博客</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../css/content.css">
+    <link rel="stylesheet" href="../../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        #homework-wrapper {
+            width: 100%;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        #homework-wrapper .hw-main-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+
+        #homework-wrapper .hw-section-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 40px;
+            animation: hwFadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        @keyframes hwFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #homework-wrapper .hw-section-title {
+            font-size: 1.5rem;
+            color: #1e40af;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        #homework-wrapper .idx1-container {
+            column-count: 4;
+            column-gap: 2em;
+            column-rule: 1px solid #ddd;
+            text-align: justify;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            max-width: 100%;
+        }
+
+        #homework-wrapper .idx1-news-header {
+            margin-bottom: 15px;
+            break-inside: avoid;
+        }
+
+        #homework-wrapper .idx1-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        #homework-wrapper .idx1-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        #homework-wrapper .idx1-content p {
+            margin-bottom: 10px;
+            text-indent: 2em;
+        }
+
+        #homework-wrapper .idx1-content p:first-of-type::first-letter {
+            float: left;
+            font-size: 3em;
+            line-height: 1;
+            padding-right: 5px;
+            padding-top: 2px;
+            color: #003366;
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+            #homework-wrapper .idx1-container {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 500px) {
+            #homework-wrapper .idx1-container {
+                column-count: 1;
+            }
+        }
+
+        #homework-wrapper .idx2-container {
+            background-color: bisque;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+
+        #homework-wrapper .idx2-header_footer {
+            height: 80px;
+            background-color: aqua;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #homework-wrapper .idx2-main {
+            flex: auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #homework-wrapper .idx2-left_right {
+            flex-basis: 100px;
+            background-color: cornflowerblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        #homework-wrapper .idx2-center {
+            flex: auto;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+
+        #homework-wrapper .idx3-wrapper {
+            width: 100%;
+            max-width: 600px;
+            height: 500px;
+            background-color: #eaeaea;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+        }
+
+        #homework-wrapper .idx3-header {
+            height: 50px;
+            background-color: blueviolet;
+            color: aliceblue;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-left: 10px;
+        }
+
+        #homework-wrapper .idx3-footer {
+            height: 30px;
+            background-color: black;
+        }
+
+        #homework-wrapper .idx3-main {
+            flex: auto;
+            overflow-y: auto;
+        }
+
+        #homework-wrapper .idx3-item {
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            border-bottom: solid 1px #d2d2d2;
+            background: white;
+        }
+
+        #homework-wrapper .idx3-left {
+            width: 60px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #homework-wrapper .idx3-center {
+            flex: auto;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #homework-wrapper .idx3-right {
+            width: 100px;
+            color: #b2b2b2;
+            font-size: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
+
+        #homework-wrapper .idx3-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        #homework-wrapper .idx3-up {
+            font-weight: bold;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        #homework-wrapper .idx3-down {
+            font-size: 12px;
+            color: #b2b2b2;
+        }
+
+        #homework-wrapper .idx4-product-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        #homework-wrapper .idx4-featured-card {
+            width: 280px;
+            flex-shrink: 0;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #homework-wrapper .idx4-featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        #homework-wrapper .idx4-card-link {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            height: 100%;
+        }
+
+        #homework-wrapper .idx4-featured-card img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        #homework-wrapper .idx4-featured-info {
+            padding: 15px;
+            text-align: left;
+        }
+
+        #homework-wrapper .idx4-featured-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+        }
+
+        #homework-wrapper .idx4-featured-price {
+            font-size: 20px;
+            color: #ff4400;
+            font-weight: bold;
+        }
+
+        #homework-wrapper .idx4-featured-tag {
+            display: inline-block;
+            background-color: #ff4400;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        #homework-wrapper .idx4-right-list {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            min-width: 300px;
+        }
+
+        #homework-wrapper .idx4-small-card {
+            width: 100%;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #homework-wrapper .idx4-small-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #homework-wrapper .idx4-small-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        #homework-wrapper .idx4-card-info {
+            padding: 10px;
+            text-align: left;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #homework-wrapper .idx4-card-title {
+            font-size: 13px;
+            color: #333;
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 36px;
+        }
+
+        #homework-wrapper .idx4-card-price {
+            font-size: 16px;
+            color: #ff4400;
+            margin: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <a href="../../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">Flex 布局实战 <span class="highlight">📐</span></h1>
+                <p class="greeting-subtitle">弹性盒子模型、多列布局与复杂界面排版总结</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <div id="homework-wrapper">
+                    <div class="hw-main-container">
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">1. 多列布局新闻排版</h2>
+                            <div class="idx1-container">
+                                <div class="idx1-news-header">
+                                    <h1 class="idx1-title">国内成品油价格迎来新一轮调整</h1>
+                                    <span class="idx1-subtitle">人民网北京2月24日电 (记者 刘阳)</span>
+                                </div>
+                                <div class="idx1-content">
+                                    <p>国家发展改革委近日发出通知，决定自2月25日零时起将汽油、柴油价格每吨分别提高300元和290元。折算到90号汽油和0号柴油每升零售价格分别提高0.22元和0.25元。
+                                    </p>
+                                    <p>此次调整是按照现行国内成品油价格形成机制，根据国际市场油价变化情况确定的。去年11月以来，受欧美经济复苏预期及中东局势影响，国际原油期货价格先抑后扬。</p>
+                                    <p>2月上旬，WTI和布伦特原油期货价格再创新高，推动国内成品油价格不断上涨。虽然近两日价格有所回落，但移动平均价格上涨幅度已超过4%。</p>
+                                    <p>通知指出，这次成品油调价后，国家将继续对种粮农民、渔业、林业、城市公交等给予补贴。同时，为保证市场物价基本稳定，对铁路客运、城市公交等实行政府指导价管理。</p>
+                                    <p>国家发展改革委表示，下一步将继续密切关注国内外市场形势变化，综合考虑各种因素，适时适度调整成品油价格，保障能源供应安全。</p>
+                                    <p>此外，发改委还强调，将加强市场监管，严厉打击囤积居奇、哄抬物价等违法行为，维护市场价格秩序，保护消费者合法权益。</p>
+                                    <p>专家分析认为，此次油价调整符合市场预期，有助于反映国际原油成本变化。建议广大消费者合理安排出行计划，关注后续价格变动。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">2. Flex 圣杯布局案例</h2>
+                            <div class="idx2-container">
+                                <div class="idx2-header_footer">Header</div>
+                                <div class="idx2-main">
+                                    <div class="idx2-left_right">Left</div>
+                                    <div class="idx2-center">Center Content</div>
+                                    <div class="idx2-left_right">Right</div>
+                                </div>
+                                <div class="idx2-header_footer">Footer</div>
+                            </div>
+                        </div>
+
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">3. 聊天列表布局</h2>
+                            <div class="idx3-wrapper">
+                                <div class="idx3-header">Chat List</div>
+                                <div class="idx3-main">
+                                    <div class="idx3-item">
+                                        <div class="idx3-left">
+                                            <img src="img/1.jpg" class="idx3-img" alt="avatar" />
+                                        </div>
+                                        <div class="idx3-center">
+                                            <div class="idx3-up">Joejoe</div>
+                                            <div class="idx3-down">what's your name?</div>
+                                        </div>
+                                        <div class="idx3-right">
+                                            <div>10:05 AM</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx3-item">
+                                        <div class="idx3-left">
+                                            <img src="img/2.jpg" class="idx3-img" alt="avatar" />
+                                        </div>
+                                        <div class="idx3-center">
+                                            <div class="idx3-up">Joejoe</div>
+                                            <div class="idx3-down">what's your name?</div>
+                                        </div>
+                                        <div class="idx3-right">
+                                            <div>10:05 AM</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx3-item">
+                                        <div class="idx3-left">
+                                            <img src="img/3.jpg" class="idx3-img" alt="avatar" />
+                                        </div>
+                                        <div class="idx3-center">
+                                            <div class="idx3-up">Joejoe</div>
+                                            <div class="idx3-down">what's your name?</div>
+                                        </div>
+                                        <div class="idx3-right">
+                                            <div>10:05 AM</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx3-item">
+                                        <div class="idx3-left">
+                                            <img src="img/4.jpg" class="idx3-img" alt="avatar" />
+                                        </div>
+                                        <div class="idx3-center">
+                                            <div class="idx3-up">Joejoe</div>
+                                            <div class="idx3-down">what's your name?</div>
+                                        </div>
+                                        <div class="idx3-right">
+                                            <div>10:05 AM</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx3-item">
+                                        <div class="idx3-left">
+                                            <img src="img/1.jpg" class="idx3-img" alt="avatar" />
+                                        </div>
+                                        <div class="idx3-center">
+                                            <div class="idx3-up">Joejoe</div>
+                                            <div class="idx3-down">what's your name?</div>
+                                        </div>
+                                        <div class="idx3-right">
+                                            <div>10:05 AM</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx3-item">
+                                        <div class="idx3-left">
+                                            <img src="img/2.jpg" class="idx3-img" alt="avatar" />
+                                        </div>
+                                        <div class="idx3-center">
+                                            <div class="idx3-up">Joejoe</div>
+                                            <div class="idx3-down">what's your name?</div>
+                                        </div>
+                                        <div class="idx3-right">
+                                            <div>10:05 AM</div>
+                                        </div>
+                                    </div>
+                                    <div class="idx3-item">
+                                        <div class="idx3-left">
+                                            <img src="img/3.jpg" class="idx3-img" alt="avatar" />
+                                        </div>
+                                        <div class="idx3-center">
+                                            <div class="idx3-up">Joejoe</div>
+                                            <div class="idx3-down">what's your name?</div>
+                                        </div>
+                                        <div class="idx3-right">
+                                            <div>10:05 AM</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="idx3-footer"></div>
+                            </div>
+                        </div>
+
+                        <div class="hw-section-card">
+                            <h2 class="hw-section-title">4. 商品列表布局</h2>
+                            <div class="idx4-product-container">
+                                <div class="idx4-featured-card">
+                                    <a href="https://www.taobao.com" target="_blank" class="idx4-card-link">
+                                        <img src="./img/sp1.webp" alt="主打商品">
+                                        <div class="idx4-featured-info">
+                                            <span class="idx4-featured-tag">热销推荐</span>
+                                            <h3 class="idx4-featured-title">【樱恋曲】莺龄～原创设计Lolita洋装芭蕾风jsk吊带连衣裙</h3>
+                                            <p class="idx4-featured-price">¥99</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="idx4-right-list">
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp2.webp" alt="商品2">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">大码女装夏季新款设计感不规则短袖T恤胖mm遮肚显瘦雪纺弧形上衣</p>
+                                                <p class="idx4-card-price">¥49.9</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp3.webp" alt="商品3">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">红枣夹核桃仁单独包装孕小吃解馋妇零食品休闲夹心新疆特产年货</p>
+                                                <p class="idx4-card-price">¥11.8</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp4.webp" alt="商品4">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">杨掌柜粉面菜蛋金汤肥牛番茄方便面速食整箱批发桶装多种混装冲泡</p>
+                                                <p class="idx4-card-price">¥60</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp5.webp" alt="商品5">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">漫花400张抽纸整箱批大包餐巾纸家用实惠装卫生面巾纸抽婴儿纸巾</p>
+                                                <p class="idx4-card-price">¥3</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp6.webp" alt="商品6">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">美式高街十字架字母印花短袖T恤男女夏季潮牌设计感宽松纯棉上衣</p>
+                                                <p class="idx4-card-price">¥39</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp7.webp" alt="商品7">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">美式阔腿工装裤女2026春季新款高腰设计感显瘦宽松休闲百搭弯刀裤</p>
+                                                <p class="idx4-card-price">¥159</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp8.webp" alt="商品8">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">围巾海边防晒丝巾新疆沙漠旅游穿搭埃及披肩女夏白色纱巾</p>
+                                                <p class="idx4-card-price">¥50</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="idx4-small-card">
+                                        <a href="#" class="idx4-card-link">
+                                            <img src="./img/sp9.webp" alt="商品9">
+                                            <div class="idx4-card-info">
+                                                <p class="idx4-card-title">
+                                                    Hinlucky韩系ins绿底粉色小碎花适用苹果17手机壳iphone16promax电镀亚克力15新款女16防摔保护套17pro超好看
+                                                </p>
+                                                <p class="idx4-card-price">¥33.8</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="../../../../js/ui.js"></script>
+</body>
+
+</html>

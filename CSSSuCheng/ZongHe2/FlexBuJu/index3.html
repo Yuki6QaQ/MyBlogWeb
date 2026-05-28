@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+            background-color: #eaeaea;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #header {
+            height: 50px;
+            background-color: blueviolet;
+            color: aliceblue;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-left: 10px;
+        }
+
+        #footer {
+            height: 30px;
+            background-color: black;
+        }
+
+        #main {
+            flex: auto;
+        }
+
+        .item {
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            border-bottom: solid 1px #d2d2d2;
+        }
+
+        .left {
+            width: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .center {
+            flex: auto;
+            padding: 5px;
+
+        }
+
+        .right {
+            width: 100px;
+            color: #b2b2b2;
+            font-size: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+        }
+
+        .up {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .down {
+            font-size: 12px;
+            color: #b2b2b2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">Chat List</div>
+        <div id="main">
+            <div class="item">
+                <div class="left">
+                    <img src="img/1.jpg" />
+                </div>
+                <div class="center">
+                    <div class="up">Joejoe</div>
+                    <div class="down">what's your name?</div>
+                </div>
+                <div class="right">
+                    <div>10:05 AM</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="left">
+                    <img src="img/2.jpg" />
+                </div>
+                <div class="center">
+                    <div class="up">Joejoe</div>
+                    <div class="down">what's your name?</div>
+                </div>
+                <div class="right">
+                    <div>10:05 AM</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="left">
+                    <img src="img/3.jpg" />
+                </div>
+                <div class="center">
+                    <div class="up">Joejoe</div>
+                    <div class="down">what's your name?</div>
+                </div>
+                <div class="right">
+                    <div>10:05 AM</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="left">
+                    <img src="img/4.jpg" />
+                </div>
+                <div class="center">
+                    <div class="up">Joejoe</div>
+                    <div class="down">what's your name?</div>
+                </div>
+                <div class="right">
+                    <div>10:05 AM</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="left">
+                    <img src="img/1.jpg" />
+                </div>
+                <div class="center">
+                    <div class="up">Joejoe</div>
+                    <div class="down">what's your name?</div>
+                </div>
+                <div class="right">
+                    <div>10:05 AM</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="left">
+                    <img src="img/2.jpg" />
+                </div>
+                <div class="center">
+                    <div class="up">Joejoe</div>
+                    <div class="down">what's your name?</div>
+                </div>
+                <div class="right">
+                    <div>10:05 AM</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="left">
+                    <img src="img/3.jpg" />
+                </div>
+                <div class="center">
+                    <div class="up">Joejoe</div>
+                    <div class="down">what's your name?</div>
+                </div>
+                <div class="right">
+                    <div>10:05 AM</div>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </div>
+
+</body>
+
+</html>

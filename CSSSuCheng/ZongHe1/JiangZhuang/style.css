@@ -1,0 +1,162 @@
+/* 该文件用于奖状页面作业专属样式（已从原 index 拆出/保留原效果） */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    background-color: transparent;
+    color: inherit;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: block;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* 让作业内容适配博客右侧容器 */
+.section {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+    padding: 40px;
+    animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== 奖状原作业样式 ===== */
+.model {
+    width: 100%;
+    max-width: 600px;
+    height: 450px;
+    background-image: url('./img/jz.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    line-height: 1.8;
+    padding: 0.5em;
+    width: 75%;
+    margin-top: 110px;
+    margin-left: 75px;
+}
+
+.content p:nth-child(1) span {
+    font-size: 1.4em;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.content p:nth-child(2) {
+    text-indent: 2em;
+    font-size: 0.95em;
+}
+
+.content p:nth-child(3) {
+    text-indent: 2em;
+    font-size: 0.95em;
+}
+
+.content p:nth-child(4) {
+    text-align: right;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.content p:nth-child(5) {
+    text-align: right;
+    padding-right: 1em;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.first {
+    font-family: "LiSu", "隶书", Georgia, 'Times New Roman', Times, serif;
+}
+
+.second {
+    font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+}
+
+.third {
+    font-family: "FangSong", "仿宋", serif;
+}
+
+.card-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1e40af;
+    width: 100%;
+}
+
+/* index.html 内联 <style> 已抽离到此文件 */
+
+.project-title {
+    margin-bottom: 1rem;
+}
+
+.right-content .section {
+    gap: 2rem;
+}
+
+.simple-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.back-btn:hover {
+    color: var(--primary-color);
+    transform: translateX(-5px);
+}
+
+.section-card {
+    width: 100%;
+}

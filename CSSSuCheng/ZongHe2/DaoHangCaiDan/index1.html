@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单的导航栏</title>
+    <style>
+        div h1 a {
+            margin: 0;
+            padding: 0;
+        }
+
+        .con {
+            background-color: #ff8;
+            padding: 10px;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .pop-menu {
+            float: left;
+            margin-left: 1em;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 10;
+        }
+
+        .text-menu {
+            width: 16em;
+            background-color: rgb(92, 133, 133);
+        }
+
+        .img-menu {
+            border: 1px dashed red;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .img-menu::after {
+            content: " ";
+            border-right: solid 4px transparent;
+            border-bottom: solid 4px red;
+            border-left: solid 4px transparent;
+            position: absolute;
+            left: 20px;
+            bottom: 100%;
+        }
+
+        .section-menu {
+            border: 1px gray solid;
+            background-color: lightgray;
+            width: 500px;
+            height: 300px;
+        }
+
+        .text-menu-item {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            line-height: 2em;
+            color: white;
+        }
+
+        .seperator {
+            border-bottom: 1px solid rgb(175, 159, 159);
+        }
+
+        .text-menu-item:hover {
+            color: #fff;
+            background-color: rgb(49, 47, 47);
+        }
+
+        .pop-menu:hover .menu,
+        .menu:hover {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="con clearfix">
+        <h1 class="pop-menu">菜单1
+            <div class="menu text-menu">
+                <a href="#" class="text-menu-item">选项1-1</a>
+                <div class="seperator"></div>
+                <a href="#" class="text-menu-item">选项1-2</a>
+            </div>
+        </h1>
+
+        <h1 class="pop-menu">菜单2
+            <div class="menu text-menu">
+                <a href="#" class="text-menu-item">选项2-1</a>
+                <a href="#" class="text-menu-item">选项2-2</a>
+            </div>
+        </h1>
+
+        <h1 class="pop-menu">菜单3
+            <div class="menu img-menu">
+                <a href="#">123456 (图片菜单示例)</a>
+            </div>
+        </h1>
+
+        <h1 class="pop-menu">菜单4
+            <div class="menu section-menu">
+                <p style="padding:10px;">这是一个大块内容的菜单</p>
+            </div>
+        </h1>
+    </div>
+
+    <div style="clear:both; padding-top: 20px;">
+        后面的内容，后面的内容，后面的内容，后面的内容，后面的内容，后面的内容，后面的内容，
+        后面的内容，<br>
+        后面的内容，<br>
+        后面的内容，<br>
+        后面的内容，<br>
+        后面的内容，<br>
+    </div>
+</body>
+
+</html>

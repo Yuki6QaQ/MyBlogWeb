@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多列布局新闻排版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #fff;
+            padding: 40px;
+        }
+
+        .container {
+            column-count: 4;
+            column-gap: 2em;
+            column-rule: 1px solid #ddd;
+            text-align: justify;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .news-header {
+            margin-bottom: 15px;
+            break-inside: avoid;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .content p {
+            margin-bottom: 10px;
+            text-indent: 2em;
+        }
+
+        .content p:first-of-type::first-letter {
+            float: left;
+            font-size: 3em;
+            line-height: 1;
+            padding-right: 5px;
+            padding-top: 2px;
+            color: #003366;
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+            .container {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="news-header">
+            <h1 class="title">国内成品油价格迎来新一轮调整</h1>
+            <span class="subtitle">人民网北京2月24日电 (记者 刘阳)</span>
+        </div>
+        <div class="content">
+            <p>国家发展改革委近日发出通知，决定自2月25日零时起将汽油、柴油价格每吨分别提高300元和290元。折算到90号汽油和0号柴油每升零售价格分别提高0.22元和0.25元。</p>
+
+            <p>此次调整是按照现行国内成品油价格形成机制，根据国际市场油价变化情况确定的。去年11月以来，受欧美经济复苏预期及中东局势影响，国际原油期货价格先抑后扬。</p>
+
+            <p>2月上旬，WTI和布伦特原油期货价格再创新高，推动国内成品油价格不断上涨。虽然近两日价格有所回落，但移动平均价格上涨幅度已超过4%。</p>
+
+            <p>通知指出，这次成品油调价后，国家将继续对种粮农民、渔业、林业、城市公交等给予补贴。同时，为保证市场物价基本稳定，对铁路客运、城市公交等实行政府指导价管理。</p>
+
+            <p>国家发展改革委表示，下一步将继续密切关注国内外市场形势变化，综合考虑各种因素，适时适度调整成品油价格，保障能源供应安全。</p>
+
+            <p>此外，发改委还强调，将加强市场监管，严厉打击囤积居奇、哄抬物价等违法行为，维护市场价格秩序，保护消费者合法权益。</p>
+
+            <p>专家分析认为，此次油价调整符合市场预期，有助于反映国际原油成本变化。建议广大消费者合理安排出行计划，关注后续价格变动。</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

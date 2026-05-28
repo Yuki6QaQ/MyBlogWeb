@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品列表布局</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .featured-card {
+            width: 280px;
+            flex-shrink: 0;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-link {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            height: 100%;
+        }
+
+        .featured-card img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .featured-info {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .featured-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+        }
+
+        .featured-price {
+            font-size: 20px;
+            color: #ff4400;
+            font-weight: bold;
+        }
+
+        .featured-tag {
+            display: inline-block;
+            background-color: #ff4400;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .right-list {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            width: 100%;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-info {
+            padding: 10px;
+            text-align: left;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 13px;
+            color: #333;
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 36px;
+        }
+
+        .card-price {
+            font-size: 16px;
+            color: #ff4400;
+            margin: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="featured-card">
+            <a href="https://www.taobao.com" target="_blank" class="card-link">
+                <img src="./img/sp1.webp" alt="主打商品">
+                <div class="featured-info">
+                    <span class="featured-tag">热销推荐</span>
+                    <h3 class="featured-title">【樱恋曲】莺龄～原创设计Lolita洋装芭蕾风jsk吊带连衣裙</h3>
+                    <p class="featured-price">¥99</p>
+                </div>
+            </a>
+        </div>
+        <div class="right-list">
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp2.webp" alt="商品2">
+                    <div class="card-info">
+                        <p class="card-title">大码女装夏季新款设计感不规则短袖T恤胖mm遮肚显瘦雪纺弧形上衣</p>
+                        <p class="card-price">¥49.9</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp3.webp" alt="商品3">
+                    <div class="card-info">
+                        <p class="card-title">红枣夹核桃仁单独包装孕小吃解馋妇零食品休闲夹心新疆特产年货</p>
+                        <p class="card-price">¥11.8</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp4.webp" alt="商品4">
+                    <div class="card-info">
+                        <p class="card-title">杨掌柜粉面菜蛋金汤肥牛番茄方便面速食整箱批发桶装多种混装冲泡</p>
+                        <p class="card-price">¥60</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp5.webp" alt="商品5">
+                    <div class="card-info">
+                        <p class="card-title">漫花400张抽纸整箱批大包餐巾纸家用实惠装卫生面巾纸抽婴儿纸巾</p>
+                        <p class="card-price">¥3</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp6.webp" alt="商品6">
+                    <div class="card-info">
+                        <p class="card-title">美式高街十字架字母印花短袖T恤男女夏季潮牌设计感宽松纯棉上衣</p>
+                        <p class="card-price">¥39</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp7.webp" alt="商品7">
+                    <div class="card-info">
+                        <p class="card-title">美式阔腿工装裤女2026春季新款高腰设计感显瘦宽松休闲百搭弯刀裤</p>
+                        <p class="card-price">¥159</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp8.webp" alt="商品8">
+                    <div class="card-info">
+                        <p class="card-title">围巾海边防晒丝巾新疆沙漠旅游穿搭埃及披肩女夏白色纱巾</p>
+                        <p class="card-price">¥50</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="#" class="card-link">
+                    <img src="./img/sp9.webp" alt="商品9">
+                    <div class="card-info">
+                        <p class="card-title">Hinlucky韩系ins绿底粉色小碎花适用苹果17手机壳iphone16promax电镀亚克力15新款女16防摔保护套17pro超好看</p>
+                        <p class="card-price">¥33.8</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

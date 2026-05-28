@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航栏实战 - Yuki的博客</title>
+    <!-- 复用 MuBan 基础 CSS -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../css/content.css">
+    <link rel="stylesheet" href="../../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- MuBan 模板原有微调样式 --- */
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        /* --- 核心区域容器 --- */
+        #index-content-wrapper {
+            width: 100%;
+            background: transparent;
+        }
+
+        #index-content-wrapper * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #index-content-wrapper .idx-body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+        #index-content-wrapper .main-wrapper {
+            width: 95%;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* 
+           【关键修复点 1】 
+           section-card 必须允许溢出，否则下拉菜单会被切掉 
+        */
+        #index-content-wrapper .section-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 40px;
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            overflow: visible !important;
+            /* 强制允许溢出 */
+            width: 100%;
+            z-index: 10;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 练习1 样式 (保持 UI 不变) */
+        #index-content-wrapper div h1 a {
+            margin: 0;
+            padding: 0;
+        }
+
+        #index-content-wrapper .con {
+            background-color: #ff8;
+            padding: 10px;
+        }
+
+        #index-content-wrapper .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        #index-content-wrapper .pop-menu {
+            float: left;
+            margin-left: 1em;
+            position: relative;
+            cursor: pointer;
+        }
+
+        #index-content-wrapper .menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 20;
+        }
+
+        #index-content-wrapper .text-menu {
+            width: 16em;
+            background-color: rgb(92, 133, 133);
+        }
+
+        #index-content-wrapper .img-menu {
+            border: 1px dashed red;
+            background-color: white;
+            padding: 10px;
+        }
+
+        #index-content-wrapper .img-menu::after {
+            content: " ";
+            border-right: solid 4px transparent;
+            border-bottom: solid 4px red;
+            border-left: solid 4px transparent;
+            position: absolute;
+            left: 20px;
+            bottom: 100%;
+        }
+
+        #index-content-wrapper .section-menu {
+            border: 1px gray solid;
+            background-color: lightgray;
+            width: 500px;
+            height: 300px;
+        }
+
+        #index-content-wrapper .text-menu-item {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            line-height: 2em;
+            color: white;
+        }
+
+        #index-content-wrapper .seperator {
+            border-bottom: 1px solid rgb(175, 159, 159);
+        }
+
+        #index-content-wrapper .text-menu-item:hover {
+            color: #fff;
+            background-color: rgb(49, 47, 47);
+        }
+
+        #index-content-wrapper .pop-menu:hover .menu,
+        #index-content-wrapper .menu:hover {
+            display: block;
+        }
+
+        /* 
+           =======================================================
+           【重点修复】美的官网导航样式 - 解决高度裁剪问题
+           =======================================================
+        */
+
+        /* 1. 导航栏容器：移除固定高度限制，或使用 min-height */
+        #index-content-wrapper .midea-header {
+            background-color: #f0f0f0;
+            min-height: 60px;
+            /* 改为最小高度，允许内容溢出 */
+            height: auto;
+            /* 自动高度，确保不裁剪 */
+            position: relative;
+            z-index: 9999 !important;
+            /* 极高优先级 */
+            width: 100%;
+            border-radius: 8px;
+            overflow: visible !important;
+            /* 绝对不允许裁剪 */
+        }
+
+        #index-content-wrapper .midea-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            height: 60px;
+            /* 容器内部保持60px高，对齐内容 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            gap: 10px;
+        }
+
+        #index-content-wrapper .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        #index-content-wrapper .logo span {
+            color: #0066cc;
+            font-size: 24px;
+            margin-right: 5px;
+        }
+
+        #index-content-wrapper .nav-menu {
+            display: flex;
+            list-style: none;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            flex: 1;
+            justify-content: center;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        #index-content-wrapper .nav-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 2. 菜单项：作为下拉菜单的定位锚点 */
+        #index-content-wrapper .nav-item {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            margin: 0 5px;
+            position: relative;
+            /* 关键：下拉菜单相对于它定位 */
+            flex-shrink: 0;
+        }
+
+        #index-content-wrapper .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 8px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        #index-content-wrapper .nav-item:hover .nav-link {
+            color: #0066cc;
+        }
+
+        /* 3. 下拉菜单：默认隐藏，悬停显示 */
+        #index-content-wrapper .dropdown {
+            position: absolute;
+            top: 100%;
+            /* 紧贴底部 */
+            left: 50%;
+            transform: translateX(-50%);
+            /* 居中 */
+            width: 180px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            /* 默认隐藏 */
+            padding: 10px 0;
+            overflow-y: auto;
+            max-height: 300px;
+            z-index: 10000 !important;
+            /* 比 header 更高 */
+            border-radius: 4px;
+            margin-top: 0;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* 4. 触发显示：鼠标移入 nav-item 时，显示其内部的 dropdown */
+        #index-content-wrapper .nav-item:hover .dropdown {
+            display: block !important;
+            /* 强制显示 */
+        }
+
+        #index-content-wrapper .dropdown a {
+            display: block;
+            padding: 8px 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+
+        #index-content-wrapper .dropdown a:hover {
+            background-color: #f9f9f9;
+            color: #0066cc;
+        }
+
+        #index-content-wrapper .right-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        #index-content-wrapper .action-btn {
+            text-decoration: none;
+            color: #666;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        #index-content-wrapper .action-btn:hover {
+            color: #0066cc;
+        }
+
+        #index-content-wrapper .search-icon,
+        #index-content-wrapper .language-icon {
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        #index-content-wrapper .language-text {
+            color: #666;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        #index-content-wrapper .language-text:hover {
+            color: #0066cc;
+        }
+
+        #index-content-wrapper .midea-demo-content {
+            padding: 50px;
+            text-align: center;
+            color: #999;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <!-- MuBan 导航栏 (页面顶部唯一导航) -->
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- 左侧边栏 -->
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <!-- 右侧内容区 -->
+        <div class="right-content">
+
+            <!-- 返回按钮 -->
+            <a href="../../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <!-- 项目标题 -->
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">导航栏与下拉菜单 <span class="highlight">🧭</span></h1>
+                <p class="greeting-subtitle">CSS 定位、浮动与伪类交互实战总结</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <!-- 【核心区域】嵌入 Index 的内容 (已删除冗余的 Index Header) -->
+            <section class="section">
+                <div id="index-content-wrapper">
+                    <div class="idx-body">
+
+                        <div class="main-wrapper">
+                            <!-- 练习1：基础下拉菜单 -->
+                            <div class="section-card">
+                                <h2>练习1：基础下拉菜单</h2>
+                                <div class="con clearfix">
+                                    <h1 class="pop-menu">菜单1
+                                        <div class="menu text-menu">
+                                            <a href="#" class="text-menu-item">选项1-1</a>
+                                            <div class="seperator"></div>
+                                            <a href="#" class="text-menu-item">选项1-2</a>
+                                        </div>
+                                    </h1>
+                                    <h1 class="pop-menu">菜单2
+                                        <div class="menu text-menu">
+                                            <a href="#" class="text-menu-item">选项2-1</a>
+                                            <a href="#" class="text-menu-item">选项2-2</a>
+                                        </div>
+                                    </h1>
+                                    <h1 class="pop-menu">菜单3
+                                        <div class="menu img-menu">
+                                            <a href="#">123456 (图片菜单示例)</a>
+                                        </div>
+                                    </h1>
+                                    <h1 class="pop-menu">菜单4
+                                        <div class="menu section-menu">
+                                            <p style="padding:10px;">这是一个大块内容的菜单</p>
+                                        </div>
+                                    </h1>
+                                </div>
+                                <div style="clear:both; padding-top: 20px;">
+                                    后面的内容...
+                                </div>
+                            </div>
+
+                            <!-- 练习2：仿美的官网导航 -->
+                            <div class="section-card">
+                                <h2>练习2：仿美的官网导航</h2>
+
+                                <!-- 导航栏开始 -->
+                                <header class="midea-header">
+                                    <div class="midea-container">
+                                        <div class="logo">
+                                            <span>M</span> Midea
+                                        </div>
+                                        <ul class="nav-menu">
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">美的业务</a>
+                                                <div class="dropdown">
+                                                    <a href="#">总览</a>
+                                                    <a href="#">智能家居</a>
+                                                    <a href="#">工业技术</a>
+                                                    <a href="#">楼宇科技</a>
+                                                    <a href="#">机器人与自动化</a>
+                                                    <a href="#">美的能源</a>
+                                                    <a href="#">美的医疗</a>
+                                                    <a href="#">安得智联</a>
+                                                    <a href="#">专业平台</a>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">投资者关系</a>
+                                                <div class="dropdown">
+                                                    <a href="#">总览</a>
+                                                    <a href="#">致股东的信</a>
+                                                    <a href="#">公司治理</a>
+                                                    <a href="#">股票信息</a>
+                                                    <a href="#">财务报告</a>
+                                                    <a href="#">信息披露</a>
+                                                    <a href="#">可持续发展</a>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item"><a href="#" class="nav-link">美的商城</a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link">美的美居</a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link">美的服务</a></li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">加入美的</a>
+                                                <div class="dropdown">
+                                                    <a href="#">总览</a>
+                                                    <a href="#">工作在美的</a>
+                                                    <a href="#">美的文化</a>
+                                                    <a href="#">职业发展</a>
+                                                    <a href="#">社会招聘</a>
+                                                    <a href="#">应届毕业生招聘</a>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">关于美的</a>
+                                                <div class="dropdown">
+                                                    <a href="#">总览</a>
+                                                    <a href="#">创新</a>
+                                                    <a href="#">制造</a>
+                                                    <a href="#">新闻中心</a>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item"><a href="#" class="nav-link">美的供应商</a></li>
+                                        </ul>
+
+                                        <div class="right-actions">
+                                            <div class="search-icon">🔍</div>
+                                            <div class="language-icon">🌐</div>
+                                            <div class="language-text">中文 / EN</div>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!-- 导航栏结束 -->
+
+                                <div class="midea-demo-content">
+                                    <h1>欢迎来到美的官网</h1>
+                                    <p>这里是Banner轮播图区域...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <!-- 引入 JS -->
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>

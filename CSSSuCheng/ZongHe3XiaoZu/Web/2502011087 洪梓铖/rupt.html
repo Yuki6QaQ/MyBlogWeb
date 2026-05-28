@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图书文娱 - 淘趣网</title>
+  <style>
+    /* --- 全局重置 (基于 muban.html) --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* --- 布局容器 --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 10px;
+      width: 100%;
+    }
+
+    /* --- 顶部栏 --- */
+    .top-bar {
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #eee;
+      font-size: 12px;
+      color: #6c6c6c;
+      padding: 8px 0;
+    }
+
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .top-links a {
+      margin-left: 15px;
+      transition: color 0.2s;
+    }
+
+    .top-links a:hover {
+      color: #ff5000;
+    }
+
+    /* --- 头部搜索 --- */
+    .header-main {
+      background-color: #fff;
+      padding: 20px 0;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ff5000;
+      margin-right: 40px;
+      white-space: nowrap;
+    }
+
+    .search-container {
+      flex: 1;
+      max-width: 600px;
+      display: flex;
+      border: 2px solid #ff5000;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-button {
+      background-color: #ff5000;
+      color: white;
+      border: none;
+      padding: 0 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-button:hover {
+      background-color: #e04600;
+    }
+
+    /* --- 面包屑导航 --- */
+    .breadcrumb {
+      padding: 15px 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .breadcrumb a:hover {
+      color: #ff5000;
+      text-decoration: underline;
+    }
+
+    .breadcrumb span {
+      margin: 0 5px;
+      color: #ccc;
+    }
+
+    /* --- 分类标题区 --- */
+    .category-header {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .category-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      border-left: 5px solid #ff5000;
+      padding-left: 15px;
+    }
+
+    .sort-options {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    .sort-item {
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .sort-item.active {
+      background-color: #ff5000;
+      color: white;
+    }
+
+    .sort-item:hover:not(.active) {
+      background-color: #f0f0f0;
+    }
+
+    /* --- 商品网格区域 --- */
+    .goods-section {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 500px;
+    }
+
+    .grid-container {
+      display: grid;
+      /* 响应式网格：最小180px，自动填充 */
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+      width: 100%;
+    }
+
+    /* 融合 xiebao.html 的卡片样式与悬停效果 */
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      /* 更圆润 */
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(255, 103, 0, 0.1);
+      border-color: #ffdbcc;
+    }
+
+    /* 图片容器：用于实现悬停放大效果 */
+    .img-wrapper {
+      width: 100%;
+      height: 220px;
+      background-color: #f9f9f9;
+      position: relative;
+      overflow: hidden;
+      /* 关键：防止图片放大溢出 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* 或者 contain，取决于书籍封面比例，cover更整齐 */
+      transition: transform 0.3s;
+      /* 关键：平滑过渡 */
+      display: block;
+    }
+
+    /* 悬停时图片放大 */
+    .product-card:hover .product-image {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-price {
+      color: #ff6700;
+      /* xiebao 的主色 */
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .product-price span {
+      font-size: 0.8rem;
+    }
+
+    .product-name {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      flex-grow: 1;
+    }
+
+    /* 标签样式来自 xiebao.html */
+    .tags {
+      display: flex;
+      gap: 5px;
+      margin-top: auto;
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      color: #999;
+      border-radius: 4px;
+    }
+
+    .tag.hot {
+      color: #ff6700;
+      border-color: #ffdbcc;
+      background: #fff0e6;
+    }
+
+    /* --- 底部 --- */
+    .footer-simple {
+      text-align: center;
+      padding: 30px 0;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      color: #666;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      border-color: #ff5000;
+      color: #ff5000;
+    }
+
+    /* --- 响应式 --- */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .logo {
+        margin-right: 0;
+      }
+
+      .search-container {
+        width: 100%;
+        max-width: none;
+      }
+
+      .grid-container {
+        /* 移动端强制2列 */
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .category-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .img-wrapper {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 顶部栏 -->
+  <div class="top-bar">
+    <div class="container">
+      <div>你好，请登录 &nbsp; <a href="#" style="color:#ff5000">免费注册</a></div>
+      <div class="top-links">
+        <a href="../index.html">返回首页</a>
+        <a href="#">我的淘趣</a>
+        <a href="#">购物车</a>
+        <a href="#">收藏夹</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 头部搜索 -->
+  <div class="header-main">
+    <div class="container header-content">
+      <a href="../index.html" class="logo">淘趣网</a>
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="搜索图书...">
+        <button class="search-button">搜索</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb">
+      <a href="../index.html">首页</a> <span>&gt;</span> <a href="#">图书文娱</a> <span>&gt;</span> 全部商品
+    </div>
+
+    <!-- 分类标题与排序 -->
+    <div class="category-header">
+      <h1 class="category-title">热门图书</h1>
+      <div class="sort-options">
+        <div class="sort-item active">综合排序</div>
+        <div class="sort-item">销量优先</div>
+        <div class="sort-item">价格从低到高</div>
+        <div class="sort-item">新品上市</div>
+      </div>
+    </div>
+
+    <!-- 商品列表区域 (内容来自 rupt.html) -->
+    <section class="goods-section">
+      <div class="grid-container">
+
+        <!-- 商品 1: 刑侦悬疑小说 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img
+              src="http://img.alicdn.com/img/i3/2472350094/O1CN01Gxwiep1CZ6GlfrHrl_!!4611686018427384206-0-saturn_solar.jpg"
+              alt="刑侦悬疑小说" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>29.90</div>
+            <div class="product-name">刑侦悬疑推理恐怖犯罪心理学小说</div>
+            <div class="tags">
+              <span class="tag hot">热销</span>
+              <span class="tag">正版</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 2: 允许一切发生 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img src="http://img.alicdn.com/img/O1CN01WbD6JK221XJEdQcQY_!!4611686018427384932-0-item_pic.jpg"
+              alt="允许一切发生" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>35.50</div>
+            <div class="product-name">【官方正版】允许一切发生 过不紧绷松弛的人生 莫言倡导的生活方式</div>
+            <div class="tags">
+              <span class="tag">治愈系</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 3: 加缪三部曲 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img
+              src="http://img.alicdn.com/img/i1/9822119301/O1CN01nedR0B2IZuvGOZPas_!!4611686018427381125-0-saturn_solar.jpg"
+              alt="加缪三部曲" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>89.00</div>
+            <div class="product-name">局外人+鼠疫+西西弗神话（共3册） 精装正版加缪三部曲代表作诺贝尔</div>
+            <div class="tags">
+              <span class="tag hot">经典文学</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 4: 日本文学 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img
+              src="http://img.alicdn.com/img/i2/1310170155/O1CN01fSBrLM1D12VXSeHWh_!!4611686018427386923-0-saturn_solar.jpg"
+              alt="日本文学" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>45.80</div>
+            <div class="product-name">【2件9折】中日语原版小说雪国人间失格我是猫伊豆的舞女名家导读版</div>
+            <div class="tags">
+              <span class="tag">双语对照</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 5: 人民日报励志 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img src="http://img.alicdn.com/img/O1CN01zL3HIz1sNO5cu4Kmi_!!4611686018427383882-0-item_pic.jpg"
+              alt="人民日报励志" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>39.90</div>
+            <div class="product-name">【2026新版】全2册 人民日报励志篇+成长篇 自泥泞出发踏荆棘登顶</div>
+            <div class="tags">
+              <span class="tag">青少年必读</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 6: 额尔古纳河右岸 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img
+              src="http://img.alicdn.com/img/i1/1310170155/O1CN019ZlccG1D12VXSm4L8_!!4611686018427386923-0-saturn_solar.jpg"
+              alt="额尔古纳河右岸" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>28.50</div>
+            <div class="product-name">【店旗舰店官网】正版包邮 额尔古纳河右岸 迟子建著茅盾文学奖作品</div>
+            <div class="tags">
+              <span class="tag hot">茅盾文学奖</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 7: 我与地坛 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img src="http://img.alicdn.com/img/O1CN018TNXy01yMpHLCC477_!!4611686018427384821-2-item_pic.png" alt="我与地坛"
+              class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>32.00</div>
+            <div class="product-name">官方正版】我与地坛精装硬壳纪念版史铁生余华著灵魂代表作原著完整无删减</div>
+            <div class="tags">
+              <span class="tag">散文经典</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 8: 追风筝的人 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img
+              src="http://img.alicdn.com/img/i4/7108106172/O1CN01lbcW4C1vSpc1MS220_!!4611686018427385788-0-saturn_solar.jpg"
+              alt="追风筝的人" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>25.90</div>
+            <div class="product-name">【官方正版】追风筝的人 [美]卡勒德·胡塞尼 著 李继宏中文版翻译</div>
+            <div class="tags">
+              <span class="tag">外国文学</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 9: 女性觉醒 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img
+              src="http://img.alicdn.com/img/i1/85053795/O1CN01ZGWIzG1duA9tSH4ke_!!4611686018427384163-0-saturn_solar.jpg"
+              alt="女性觉醒" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>42.00</div>
+            <div class="product-name">【全2册】她来劈开这山+一间只属于自己的房间 病鹤斋 伍尔夫 著</div>
+            <div class="tags">
+              <span class="tag">女性主义</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 10: 阿加莎克里斯蒂 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img src="https://img.alicdn.com/bao/uploaded/i2/2211354721835/O1CN01sSHDRs1PQTlsbTRp2_!!2211354721835.jpg"
+              alt="阿加莎克里斯蒂" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>19.90</div>
+            <div class="product-name">【新华正版】阿加莎克里斯蒂作品全集任选 无人生还东方快车谋杀案</div>
+            <div class="tags">
+              <span class="tag hot">推理悬疑</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 11: 心理学名著 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img
+              src="http://img.alicdn.com/img/i4/1980930147/O1CN01ZPiEII1CxNGnRibtN_!!4611686018427385955-0-saturn_solar.jpg"
+              alt="心理学名著" class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>22.50</div>
+            <div class="product-name">名著】学生课外阅读正版心理学书籍 入门基础</div>
+            <div class="tags">
+              <span class="tag">社科心理</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品 12: 四大名著 -->
+        <div class="product-card">
+          <div class="img-wrapper">
+            <img src="http://img.alicdn.com/img/i4/931666789/O1CN01KcsZFy201Q1tHNvcz_!!931666789.jpg" alt="四大名著"
+              class="product-image">
+          </div>
+          <div class="product-info">
+            <div class="product-price"><small>¥</small>68.00</div>
+            <div class="product-name">【完整无删减】四大名著正版原著 三国演义红楼梦西游记水浒传</div>
+            <div class="tags">
+              <span class="tag hot">套装优惠</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="footer-simple">
+      <p>© 2026 淘趣网 版权所有</p>
+      <a href="../index.html" class="back-btn">&larr; 返回首页</a>
+    </div>
+  </div>
+
+</body>
+
+</html>

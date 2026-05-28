@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>促销页面</title>
+    <style>
+        .item {
+            width: 414px;
+            font-size: 0;
+            line-height: 0;
+        }
+
+        .item img {
+            width: 100%;
+            display: block;
+            vertical-align: middle;
+        }
+
+        .prompt {
+            position: relative;
+            display: inline-block;
+        }
+
+        .prompt::before {
+            content: url(img/cxzs.png);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .prompt::after {
+            content: url(img/cxyx.png);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="item prompt">
+        <img src="img/hgds.jpg" alt="">
+    </div>
+    <div class="item prompt">
+        <img src="img/hy.jpg" alt="">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 浮动与定位 - Yuki的博客</title>
+    <!-- 复用 CSS -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../css/content.css">
+    <link rel="stylesheet" href="../../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- MuBan 原有微调样式 --- */
+        .project-header {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .simple-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        /* --- 核心区域：用于承载 Index 内容的容器 --- */
+        /* 我们给这个容器一个特定的 ID，以便隔离样式 */
+        #index-content-wrapper {
+            width: 100%;
+            /* 移除 MuBan 默认的一些内边距，让 index 的内容完全控制内部布局 */
+            background: transparent;
+        }
+
+        /* 
+           以下是从 index.html 提取并经过“命名空间隔离”处理的 CSS 
+           所有选择器前加了 #index-content-wrapper 以确保不影响 MuBan 其他部分
+        */
+        #index-content-wrapper * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #index-content-wrapper .idx-body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: #f8fafc;
+            /* 保持原背景色 */
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 40px;
+            /* 注意：原 body 有 padding，这里保留 */
+        }
+
+        #index-content-wrapper .idx-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 100;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        #index-content-wrapper .idx-header .placeholder-box {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e40af;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        #index-content-wrapper .idx-header .placeholder-box:hover {
+            transform: scale(1.05);
+        }
+
+        #index-content-wrapper .idx-header .nav-bar {
+            flex: 1;
+            margin-left: 40px;
+            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        #index-content-wrapper .nav-btn {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748b;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        #index-content-wrapper .nav-btn:hover {
+            color: #1e40af;
+            background-color: rgba(30, 64, 175, 0.08);
+            transform: translateY(-2px);
+        }
+
+        #index-content-wrapper .nav-btn.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        #index-content-wrapper .main-wrapper {
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        #index-content-wrapper .section-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+            padding: 40px;
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #index-content-wrapper .section-title {
+            font-size: 1.5rem;
+            color: #1e40af;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #index-content-wrapper .circle {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 2px solid gray;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            border: 2px solid red;
+        }
+
+        #index-content-wrapper .circle:nth-child(2n) {
+            background-color: blue;
+        }
+
+        #index-content-wrapper .circle:nth-child(2n+1) {
+            background-color: black;
+        }
+
+        #index-content-wrapper p.circle {
+            display: inline-block;
+            margin: 0 2px;
+        }
+
+        #index-content-wrapper .img-float {
+            float: left;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        #index-content-wrapper .ele {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin: 2px;
+        }
+
+        #index-content-wrapper .front {
+            background-color: black;
+        }
+
+        #index-content-wrapper .back {
+            background-color: blue;
+        }
+
+        #index-content-wrapper .product-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        #index-content-wrapper .featured-card {
+            width: 280px;
+            flex-shrink: 0;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #index-content-wrapper .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        #index-content-wrapper .card-link {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            height: 100%;
+        }
+
+        #index-content-wrapper .featured-card img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        #index-content-wrapper .featured-info {
+            padding: 15px;
+            text-align: left;
+        }
+
+        #index-content-wrapper .featured-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+        }
+
+        #index-content-wrapper .featured-price {
+            font-size: 20px;
+            color: #ff4400;
+            font-weight: bold;
+        }
+
+        #index-content-wrapper .featured-tag {
+            display: inline-block;
+            background-color: #ff4400;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        #index-content-wrapper .right-list {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        #index-content-wrapper .small-card {
+            width: 100%;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #index-content-wrapper .small-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #index-content-wrapper .small-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        #index-content-wrapper .card-info {
+            padding: 10px;
+            text-align: left;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #index-content-wrapper .card-title {
+            font-size: 13px;
+            color: #333;
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 36px;
+        }
+
+        #index-content-wrapper .card-price {
+            font-size: 16px;
+            color: #ff4400;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        #index-content-wrapper a.text-none {
+            text-decoration: none;
+            display: block;
+        }
+
+        #index-content-wrapper .video-con {
+            position: relative;
+            width: 400px;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 0 auto;
+        }
+
+        #index-content-wrapper .video-con .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        #index-content-wrapper .play-btn {
+            opacity: 0;
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            right: 10%;
+            bottom: 10%;
+            /* 注意：这里假设图片路径相对于 MuBan.html 是正确的，如果报错需调整路径 */
+            background: url(CSSSuCheng/ZongHe2/CSSDingWei/img/blzt.png) no-repeat center center;
+            background-size: contain;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        #index-content-wrapper .video-con:hover .play-btn {
+            opacity: 1;
+        }
+
+        #index-content-wrapper .mask {
+            width: 100%;
+            height: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            transition: height 0.5s ease-in-out;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #index-content-wrapper .mask h1 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        #index-content-wrapper .mask p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+        }
+
+        #index-content-wrapper .video-con:hover .mask {
+            height: 100%;
+        }
+
+        #index-content-wrapper .promo-item {
+            width: 414px;
+            font-size: 0;
+            line-height: 0;
+            margin: 0 auto;
+        }
+
+        #index-content-wrapper .promo-item img {
+            width: 100%;
+            display: block;
+            vertical-align: middle;
+        }
+
+        #index-content-wrapper .prompt {
+            position: relative;
+            display: inline-block;
+        }
+
+        #index-content-wrapper .prompt::before {
+            content: url(CSSSuCheng/ZongHe2/CSSDingWei/img/cxzs.png);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        #index-content-wrapper .prompt::after {
+            content: url(CSSSuCheng/ZongHe2/CSSDingWei/img/cxyx.png);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <!-- 导航栏：保持一致 -->
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="../../../index.html#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="../../../index.html#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="../../../index.html#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- 左侧边栏：极简模式 -->
+        <aside class="left-sidebar simple-sidebar">
+            <div class="avatar-container glass">
+                <img src="../../../img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+            <div class="status-card glass">
+                <div class="status-quote">正在查看项目演示</div>
+            </div>
+        </aside>
+
+        <!-- 右侧内容区 -->
+        <div class="right-content">
+
+            <!-- 返回按钮 -->
+            <a href="../../../index.html#portfolio" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回作品列表
+            </a>
+
+            <!-- 项目标题 -->
+            <div class="greeting-section glass project-header fade-in visible">
+                <h1 class="greeting-title">CSS 浮动与定位 <span class="highlight">🎨</span></h1>
+                <p class="greeting-subtitle">深入理解盒模型、浮动清除与绝对/相对定位实战</p>
+                <div class="project-meta">
+                    <span class="meta-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                    <span class="meta-tag"><i class="fas fa-layer-group"></i> 课程作业</span>
+                </div>
+            </div>
+
+            <!-- 【核心区域】嵌入 Index 的内容 -->
+            <section class="section">
+                <div id="index-content-wrapper">
+                    <div class="idx-body">
+                        <!-- 原 Index 的 Header (可选：如果你想保留原页面的顶部导航，保留它；如果想只用 MuBan 的导航，可以删除这个 idx-header) -->
+                        <!-- 这里我保留它，因为它是作业的一部分，但你可以选择隐藏它 -->
+                        <div class="idx-header">
+                            <a href="../../../index.html" class="placeholder-box">My Resume</a>
+                            <div class="nav-bar">
+                                <a href="../../../index.html" class="nav-btn">主页</a>
+                                <a href="../../../index.html#portfolio" class="nav-btn">作品集</a>
+                                <span class="nav-btn active">浮动与定位</span>
+                            </div>
+                        </div>
+
+                        <div class="main-wrapper">
+                            <!-- 1. 圆形数字练习 -->
+                            <div class="section-card">
+                                <h2 class="section-title">1. 圆形数字练习</h2>
+                                <h3>使用 div 显示</h3>
+                                <div>
+                                    <div class="circle">1</div>
+                                    <div class="circle">2</div>
+                                    <div class="circle">3</div>
+                                    <div class="circle">4</div>
+                                    <div class="circle">5</div>
+                                    <div class="circle">6</div>
+                                    <div class="circle">7</div>
+                                    <div class="circle">8</div>
+                                    <div class="circle">9</div>
+                                    <div class="circle">10</div>
+                                    <div class="circle">11</div>
+                                    <div class="circle">12</div>
+                                    <div class="circle">13</div>
+                                    <div class="circle">14</div>
+                                    <div class="circle">15</div>
+                                    <div class="circle">16</div>
+                                    <div class="circle">17</div>
+                                    <div class="circle">18</div>
+                                    <div class="circle">19</div>
+                                    <div class="circle">20</div>
+                                </div>
+                                <h3 style="margin-top: 20px;">使用 span 显示</h3>
+                                <div>
+                                    <span class="circle">1</span><span class="circle">2</span><span
+                                        class="circle">3</span><span class="circle">4</span><span
+                                        class="circle">5</span>
+                                    <span class="circle">6</span><span class="circle">7</span><span
+                                        class="circle">8</span><span class="circle">9</span><span
+                                        class="circle">10</span>
+                                    <span class="circle">11</span><span class="circle">12</span><span
+                                        class="circle">13</span><span class="circle">14</span><span
+                                        class="circle">15</span>
+                                    <span class="circle">16</span><span class="circle">17</span><span
+                                        class="circle">18</span><span class="circle">19</span><span
+                                        class="circle">20</span>
+                                </div>
+                                <h3 style="margin-top: 20px;">使用 p 显示</h3>
+                                <div>
+                                    <p class="circle">1</p>
+                                    <p class="circle">2</p>
+                                    <p class="circle">3</p>
+                                    <p class="circle">4</p>
+                                    <p class="circle">5</p>
+                                    <p class="circle">6</p>
+                                    <p class="circle">7</p>
+                                    <p class="circle">8</p>
+                                    <p class="circle">9</p>
+                                    <p class="circle">10</p>
+                                    <p class="circle">11</p>
+                                    <p class="circle">12</p>
+                                    <p class="circle">13</p>
+                                    <p class="circle">14</p>
+                                    <p class="circle">15</p>
+                                    <p class="circle">16</p>
+                                    <p class="circle">17</p>
+                                    <p class="circle">18</p>
+                                    <p class="circle">19</p>
+                                    <p class="circle">20</p>
+                                </div>
+                            </div>
+
+                            <!-- 2. 探究浮动 -->
+                            <div class="section-card">
+                                <h2 class="section-title">2. 探究浮动</h2>
+                                <div style="overflow: hidden; border: 1px dashed #ccc; padding: 10px;">
+                                    <span class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span>
+                                    <span class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span>
+                                    <span class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span>
+                                    <span class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span>
+                                    <span class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span><span class="front ele">前</span><span
+                                        class="front ele">前</span>
+                                    <span class="front ele">前</span><span class="front ele">前</span>
+                                    <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/purple.png" alt="" class="img-float">
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                    <span class="back ele">后</span><span class="back ele">后</span><span
+                                        class="back ele">后</span>
+                                </div>
+                            </div>
+
+                            <!-- 3. 商品列表布局 -->
+                            <div class="section-card">
+                                <h2 class="section-title">3. 商品列表布局</h2>
+                                <div class="product-container">
+                                    <div class="featured-card">
+                                        <a href="https://www.taobao.com" target="_blank" class="card-link">
+                                            <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp1.webp" alt="主打商品">
+                                            <div class="featured-info">
+                                                <span class="featured-tag">热销推荐</span>
+                                                <h3 class="featured-title">【樱恋曲】莺龄～原创设计Lolita洋装芭蕾风jsk吊带连衣裙</h3>
+                                                <p class="featured-price">¥99</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="right-list">
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp2.webp" alt="商品2">
+                                                <div class="card-info">
+                                                    <p class="card-title">大码女装夏季新款设计感不规则短袖T恤胖mm遮肚显瘦雪纺弧形上衣</p>
+                                                    <p class="card-price">¥49.9</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp3.webp" alt="商品3">
+                                                <div class="card-info">
+                                                    <p class="card-title">红枣夹核桃仁单独包装孕小吃解馋妇零食品休闲夹心新疆特产年货</p>
+                                                    <p class="card-price">¥11.8</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp4.webp" alt="商品4">
+                                                <div class="card-info">
+                                                    <p class="card-title">杨掌柜粉面菜蛋金汤肥牛番茄方便面速食整箱批发桶装多种混装冲泡</p>
+                                                    <p class="card-price">¥60</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp5.webp" alt="商品5">
+                                                <div class="card-info">
+                                                    <p class="card-title">漫花400张抽纸整箱批大包餐巾纸家用实惠装卫生面巾纸抽婴儿纸巾</p>
+                                                    <p class="card-price">¥3</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp6.webp" alt="商品6">
+                                                <div class="card-info">
+                                                    <p class="card-title">美式高街十字架字母印花短袖T恤男女夏季潮牌设计感宽松纯棉上衣</p>
+                                                    <p class="card-price">¥39</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp7.webp" alt="商品7">
+                                                <div class="card-info">
+                                                    <p class="card-title">美式阔腿工装裤女2026春季新款高腰设计感显瘦宽松休闲百搭弯刀裤</p>
+                                                    <p class="card-price">¥159</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp8.webp" alt="商品8">
+                                                <div class="card-info">
+                                                    <p class="card-title">围巾海边防晒丝巾新疆沙漠旅游穿搭埃及披肩女夏白色纱巾</p>
+                                                    <p class="card-price">¥50</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="small-card">
+                                            <a href="#" class="card-link">
+                                                <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/sp9.webp" alt="商品9">
+                                                <div class="card-info">
+                                                    <p class="card-title">
+                                                        Hinlucky韩系ins绿底粉色小碎花适用苹果17手机壳iphone16promax电镀亚克力15新款女16防摔保护套17pro超好看
+                                                    </p>
+                                                    <p class="card-price">¥33.8</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. 视频卡片悬停效果 -->
+                            <div class="section-card">
+                                <h2 class="section-title">4. 视频卡片悬停效果</h2>
+                                <div class="video-con">
+                                    <a href="https://www.bilibili.com/video/BV1u64y1a7hW/" target="_blank"
+                                        class="item text-none">
+                                        <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/bl.jpg" alt="视频封面">
+                                    </a>
+                                    <div class="play-btn"></div>
+                                    <a href="https://www.bilibili.com/video/BV1u64y1a7hW/" target="_blank"
+                                        class="mask text-none">
+                                        <h1>她在哪里了</h1>
+                                        <p>远方的他，正无语凝眸，望眼欲穿。。。</p>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 5. 促销页面定位 -->
+                            <div class="section-card">
+                                <h2 class="section-title">5. 促销页面定位</h2>
+                                <div style="text-align: center;">
+                                    <div class="promo-item prompt">
+                                        <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/hgds.jpg" alt="">
+                                    </div>
+                                    <div class="promo-item prompt" style="margin-top: 20px;">
+                                        <img src="CSSSuCheng/ZongHe2/CSSDingWei/img/hy.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- 页脚：保持一致 -->
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <!-- 引入 JS -->
+    <script src="../../js/ui.js"></script>
+</body>
+
+</html>

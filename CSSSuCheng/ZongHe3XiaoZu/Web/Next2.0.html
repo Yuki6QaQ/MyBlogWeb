@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淘趣 - 综合购物平台</title>
+    <style>
+        /* --- 全局重置 --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- 布局容器 --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        /* --- 顶部栏 --- */
+        .top-bar {
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            color: #6c6c6c;
+            padding: 8px 0;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-links a {
+            margin-left: 15px;
+            transition: color 0.2s;
+        }
+
+        .top-links a:hover {
+            color: #ff5000;
+        }
+
+        /* --- 头部搜索 --- */
+        .header-main {
+            background-color: #fff;
+            padding: 20px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff5000;
+            margin-right: 40px;
+            white-space: nowrap;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            border: 2px solid #ff5000;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #ff5000;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-button:hover {
+            background-color: #e04600;
+        }
+
+        /* --- 主体布局 (侧边栏+Banner) --- */
+        .main-layout {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            height: 400px;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+
+        /* 修改：支持 a 标签作为侧边栏项，用于跳转 */
+        .sidebar-item {
+            padding: 8px 20px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .sidebar-item:hover,
+        .sidebar-item.active {
+            background-color: #ffe4dc;
+            color: #ff5000;
+            font-weight: bold;
+        }
+
+        .sidebar-item::after {
+            content: '>';
+            font-size: 12px;
+            opacity: 0.5;
+        }
+
+        .banner-area {
+            flex: 1;
+            background-color: #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .banner-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- 分类导航 (保留轮播功能) --- */
+        .nav-categories {
+            background-color: #fff;
+            margin-top: 10px;
+            padding: 15px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-cat-item {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            position: relative;
+            padding: 5px 10px;
+        }
+
+        .nav-cat-item:hover,
+        .nav-cat-item.active {
+            color: #ff5000;
+        }
+
+        .nav-cat-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background-color: #ff5000;
+            border-radius: 2px;
+        }
+
+        /* --- 商品区域 --- */
+        .goods-section {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ff5000;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: #ff5000;
+            font-weight: bold;
+        }
+
+        /* 滑动窗口容器 */
+        .slider-window {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            min-height: 300px;
+            justify-content: space-between;
+            display: flex;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            width: max-content;
+            transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .category-slide {
+            width: 100%;
+            flex-shrink: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 网格布局 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+
+        }
+
+        .product-card:hover {
+            border-color: #ff5000;
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #f9f9f9;
+            padding: 0;
+            display: block;
+        }
+
+        .product-info {
+            padding: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-price {
+            color: #ff5000;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price span {
+            font-size: 0.8rem;
+        }
+
+        .product-name {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 36px;
+            line-height: 18px;
+            flex-grow: 1;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #999;
+            margin-top: auto;
+        }
+
+        /* --- 任务区域 --- */
+        .task-section {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .task-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .task-btn {
+            padding: 10px 20px;
+            background-color: #ff5000;
+            color: white;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .task-btn:hover {
+            background-color: #e04600;
+        }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .main-layout {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 10px;
+            }
+
+            .sidebar-item {
+                white-space: nowrap;
+                margin-right: 10px;
+            }
+
+            .sidebar-item::after {
+                content: '';
+            }
+
+            .banner-area {
+                height: 200px;
+            }
+
+            .nav-categories {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 10px;
+            }
+
+            .nav-cat-item {
+                margin-right: 20px;
+                font-size: 14px;
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="container">
+            <div>你好，请登录 &nbsp; <a href="#" style="color:#ff5000">免费注册</a></div>
+            <div class="top-links">
+                <a href="#">我的淘趣</a>
+                <a href="#">购物车</a>
+                <a href="#">收藏夹</a>
+                <a href="#">卖家中心</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-main">
+        <div class="container header-content">
+            <div class="logo">淘趣网</div>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索宝贝...">
+                <button class="search-button">搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-layout">
+            <div class="sidebar">
+                <a href="index.html" class="sidebar-item active">首页推荐</a>
+                <a href="./2502015756 王嘉玉/nvzhuang.html" class="sidebar-item" target="_blank">女装</a>
+                <a href="./2502011053 王俊/xiebao.html" class="sidebar-item" target="_blank">男装</a>
+                <a href="./2502011087 洪梓铖/rupt.html" class="sidebar-item" target="_blank">图书</a>
+                <a href="./2502011053 王俊/shuma.html" class="sidebar-item" target="_blank">数码</a>
+                <a href="./2502011072 李保宏/jiaju.html" class="sidebar-item" target="_blank">家居</a>
+            </div>
+
+            <div class="banner-area">
+                <img src="./img/car (1).jpg" alt="Banner">
+            </div>
+        </div>
+
+        <!-- 下方导航栏：保留 onclick 事件，用于页面内轮播切换 -->
+        <div class="nav-categories">
+            <div class="nav-cat-item active" onclick="switchCategory('home', this)">首页</div>
+            <div class="nav-cat-item" onclick="switchCategory('women', this)">女装</div>
+            <div class="nav-cat-item" onclick="switchCategory('men', this)">男装</div>
+            <div class="nav-cat-item" onclick="switchCategory('books', this)">图书</div>
+            <div class="nav-cat-item" onclick="switchCategory('digital', this)">数码</div>
+            <div class="nav-cat-item" onclick="switchCategory('home-goods', this)">家居</div>
+        </div>
+
+        <section class="goods-section">
+            <div class="section-header">
+                <h2 class="section-title" id="current-category-title">首页推荐</h2>
+                <span style="font-size: 12px; color: #999;">好物精选</span>
+            </div>
+
+            <div class="slider-window">
+                <div class="slider-wrapper" id="slider-wrapper">
+
+                    <!-- 首页推荐 -->
+                    <div class="category-slide" id="slide-home">
+                        <div class="grid-container">
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/i4/2479761659/O1CN01bED0Bk1O7ru4JMcZb_!!2479761659.jpg"
+                                    alt="连衣裙" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>199.00</div>
+                                    <div class="product-name">2024夏季新款法式复古蓝色碎花连衣裙</div>
+                                    <div class="product-meta"><span>热卖</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://2d.zol-img.com.cn/product/270_500x375/849/ce84ZrOzhggic.png"
+                                    alt="智能手机" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>5999.00</div>
+                                    <div class="product-name">最新款智能手机 5G全网通 高清拍照</div>
+                                    <div class="product-meta"><span>旗舰</span><span>正品</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="http://img.alicdn.com/img/O1CN01WbD6JK221XJEdQcQY_!!4611686018427384932-0-item_pic.jpg"
+                                    alt="允许一切发生" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>35.50</div>
+                                    <div class="product-name">【官方正版】允许一切发生 莫言倡导</div>
+                                    <div class="product-meta"><span>治愈</span><span>热销</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/imgextra/i3/2094673702/O1CN01szhtzI1dDZH7oIL3X_!!2094673702-0-alimamacc.jpg_460x460q90.jpg_.webp"
+                                    alt="折叠床" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>158.00</div>
+                                    <div class="product-name">艾臣午睡单人简易便携折叠床</div>
+                                    <div class="product-meta"><span>居家</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
+                                    alt="运动鞋" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>599.00</div>
+                                    <div class="product-name">经典红色运动跑鞋 透气减震</div>
+                                    <div class="product-meta"><span>运动</span><span>爆款</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 女装分类 -->
+                    <div class="category-slide" id="slide-women">
+                        <div class="grid-container">
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/i4/2479761659/O1CN01bED0Bk1O7ru4JMcZb_!!2479761659.jpg"
+                                    alt="连衣裙" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>199.00</div>
+                                    <div class="product-name">2024夏季新款法式复古蓝色碎花连衣裙收腰显瘦气质长裙</div>
+                                    <div class="product-meta"><span>1200+人付款</span><span>热卖</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.fV1ctM-dIKqK05CF8iHRFwAAAA?w=209&h=209&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                                    alt="衬衫" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>89.00</div>
+                                    <div class="product-name">白色纯棉短袖衬衫女设计感小众夏季薄款宽松百搭上衣</div>
+                                    <div class="product-meta"><span>800+人付款</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.UgHWB3pmSOIwyM2UO7cSnwHaHa?w=209&h=209&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                                    alt="半身裙" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>129.00</div>
+                                    <div class="product-name">高腰牛仔半身裙女夏季A字裙显瘦包臀短裙百搭学生</div>
+                                    <div class="product-meta"><span>2300+人付款</span><span>爆款</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.Kq78ER6EpnUjRkCHk3lwZAAAAA?w=195&h=195&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                                    alt="开衫" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>159.00</div>
+                                    <div class="product-name">浅蓝色针织开衫女夏季薄款防晒衣空调衫小外套温柔风</div>
+                                    <div class="product-meta"><span>500+人付款</span><span>新品</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.inSDABppbXvhvbB9q77OygHaHa?w=195&h=195&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                                    alt="阔腿裤" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>119.00</div>
+                                    <div class="product-name">西装阔腿裤女夏季薄款垂感拖地裤高腰显瘦休闲直筒裤</div>
+                                    <div class="product-meta"><span>1500+人付款</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 男装分类 -->
+                    <div class="category-slide" id="slide-men">
+                        <div class="grid-container">
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
+                                    alt="红色运动鞋" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>599.00</div>
+                                    <div class="product-name">经典红色运动跑鞋 透气减震 轻便舒适</div>
+                                    <div class="product-meta"><span>热销</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=500&q=80"
+                                    alt="休闲鞋" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>399.00</div>
+                                    <div class="product-name">复古休闲板鞋 街头潮流百搭 男女同款</div>
+                                    <div class="product-meta"><span>新品</span><span>特惠</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=500&q=80"
+                                    alt="女士手提包" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>899.00</div>
+                                    <div class="product-name">时尚真皮手提包 优雅气质 通勤必备</div>
+                                    <div class="product-meta"><span>推荐</span><span>正品</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80"
+                                    alt="双肩包" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>259.00</div>
+                                    <div class="product-name">大容量多功能双肩包 防水耐磨 电脑隔层</div>
+                                    <div class="product-meta"><span>特惠</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=500&q=80"
+                                    alt="绿色运动鞋" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>799.00</div>
+                                    <div class="product-name">限量版绿色篮球鞋 高帮护踝 实战利器</div>
+                                    <div class="product-meta"><span>限量</span><span>旗舰店</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 图书分类 -->
+                    <div class="category-slide" id="slide-books">
+                        <div class="grid-container">
+                            <div class="product-card">
+                                <img src="http://img.alicdn.com/img/i3/2472350094/O1CN01Gxwiep1CZ6GlfrHrl_!!4611686018427384206-0-saturn_solar.jpg"
+                                    alt="刑侦悬疑小说" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>29.90</div>
+                                    <div class="product-name">刑侦悬疑推理恐怖犯罪心理学小说</div>
+                                    <div class="product-meta"><span>热销</span><span>正版</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="http://img.alicdn.com/img/O1CN01WbD6JK221XJEdQcQY_!!4611686018427384932-0-item_pic.jpg"
+                                    alt="允许一切发生" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>35.50</div>
+                                    <div class="product-name">【官方正版】允许一切发生 过不紧绷松弛的人生</div>
+                                    <div class="product-meta"><span>治愈系</span><span>莫言倡导</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="http://img.alicdn.com/img/i1/9822119301/O1CN01nedR0B2IZuvGOZPas_!!4611686018427381125-0-saturn_solar.jpg"
+                                    alt="加缪三部曲" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>89.00</div>
+                                    <div class="product-name">局外人+鼠疫+西西弗神话 精装正版加缪三部曲</div>
+                                    <div class="product-meta"><span>经典文学</span><span>诺贝尔奖</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="http://img.alicdn.com/img/i2/1310170155/O1CN01fSBrLM1D12VXSeHWh_!!4611686018427386923-0-saturn_solar.jpg"
+                                    alt="日本文学" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>45.80</div>
+                                    <div class="product-name">雪国人间失格我是猫伊豆的舞女名家导读版</div>
+                                    <div class="product-meta"><span>双语对照</span><span>9折</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="http://img.alicdn.com/img/O1CN01zL3HIz1sNO5cu4Kmi_!!4611686018427383882-0-item_pic.jpg"
+                                    alt="人民日报励志" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>39.90</div>
+                                    <div class="product-name">人民日报励志篇+成长篇 自泥泞出发踏荆棘登顶</div>
+                                    <div class="product-meta"><span>青少年必读</span><span>新版</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 数码分类 -->
+                    <div class="category-slide" id="slide-digital">
+                        <div class="grid-container">
+                            <div class="product-card">
+                                <img src="https://2d.zol-img.com.cn/product/270_500x375/849/ce84ZrOzhggic.png"
+                                    alt="智能手机" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>5999.00</div>
+                                    <div class="product-name">最新款智能手机 5G全网通 高清拍照 长续航</div>
+                                    <div class="product-meta"><span>已售 1000+</span><span>旗舰店</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://mercrt-fd.zol-img.com.cn/t_s640x2000/g7/M00/0D/06/ChMkLGZceu6ILVDaAAUnctWAKYYAAe2cwMuikcABSeK073.png"
+                                    alt="笔记本电脑" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>8999.00</div>
+                                    <div class="product-name">高性能笔记本电脑 轻薄本 办公游戏两用</div>
+                                    <div class="product-meta"><span>已售 500+</span><span>官方店</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://img14.360buyimg.com/pop/jfs/t1/54869/20/24835/374239/66a70306Fed9897f5/554dd5892bb87101.png"
+                                    alt="耳机" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>1299.00</div>
+                                    <div class="product-name">无线降噪耳机 头戴式 蓝牙5.3 超长续航</div>
+                                    <div class="product-meta"><span>已售 2万+</span><span>专营店</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://imgservice.suning.cn/uimg1/b2c/image/1QjAShIUUHQiUGTsXM4cvQ.jpg"
+                                    alt="相机" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>4599.00</div>
+                                    <div class="product-name">微单相机 入门级 4K视频 防抖镜头套装</div>
+                                    <div class="product-meta"><span>已售 800+</span><span>旗舰店</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/i4/2188649872/O1CN01sHtgdC2MnQX0nlO6S_!!2188649872.jpg"
+                                    alt="手表" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>299.00</div>
+                                    <div class="product-name">智能手表 运动监测 心率血氧 防水设计</div>
+                                    <div class="product-meta"><span>已售 5000+</span><span>自营</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 家居分类 -->
+                    <div class="category-slide" id="slide-home-goods">
+                        <div class="grid-container">
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/imgextra/i3/2094673702/O1CN01szhtzI1dDZH7oIL3X_!!2094673702-0-alimamacc.jpg_460x460q90.jpg_.webp"
+                                    alt="折叠床" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>158.00</div>
+                                    <div class="product-name">艾臣午睡单人简易便携折叠床</div>
+                                    <div class="product-meta"><span>热卖</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/bao/uploaded/i1/835086076/O1CN01q9D5kG1ukrU7a3Oyp_!!0-item_pic.jpg_460x460q90.jpg_.webp"
+                                    alt="睡垫" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>89.00</div>
+                                    <div class="product-name">【加厚防塌】打地铺睡垫</div>
+                                    <div class="product-meta"><span>新品</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/bao/uploaded/i4/2219547449148/O1CN01Q2ObnE2HRqLSmfcZj_!!4611686018427385660-0-item_pic.jpg_460x460q90.jpg_.webp"
+                                    alt="小风扇" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>45.90</div>
+                                    <div class="product-name">手持小风扇超长续航静音办公室桌上usb电风扇</div>
+                                    <div class="product-meta"><span>促销</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://img.alicdn.com/bao/uploaded/i4/2226220127/O1CN01xaYlo81CoDQJY0Vd5_!!4611686018427382879-0-saturn_solar.jpg_460x460q90.jpg_.webp"
+                                    alt="躺椅" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>268.00</div>
+                                    <div class="product-name">特粗铝合金午休躺椅办公室午睡椅</div>
+                                    <div class="product-meta"><span>月销 100+</span><span>浙江</span></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://g-search1.alicdn.com/img/bao/uploaded/i4/i2/1826274690/O1CN012Fx4Qt1kW4VtyhmtI_!!1826274690.jpg_360x360q90.jpg_.webp"
+                                    alt="脚踏板" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-price"><span>¥</span>35.80</div>
+                                    <div class="product-name">办公室桌下脚踏板防跷二郎腿神器踩脚凳</div>
+                                    <div class="product-meta"><span>热卖</span><span>包邮</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const categoryOrder = ['home', 'women', 'men', 'books', 'digital', 'home-goods'];
+        const categoryTitles = {
+            'home': '首页推荐',
+            'women': '女装',
+            'men': '男装',
+            'books': '图书',
+            'digital': '手机',
+            'home-goods': '家居'
+        };
+
+        // 这个函数现在只服务于下方的导航栏，实现页面内的滑动切换
+        function switchCategory(categoryId, element) {
+            document.getElementById('current-category-title').innerText = categoryTitles[categoryId];
+            const index = categoryOrder.indexOf(categoryId);
+            if (index === -1) return;
+
+            const sliderWrapper = document.getElementById('slider-wrapper');
+            sliderWrapper.style.transform = `translateX(-${index * 100}%)`;
+
+            // 更新下方导航栏的激活状态
+            document.querySelectorAll('.nav-cat-item').forEach(item => item.classList.remove('active'));
+            if (element) element.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

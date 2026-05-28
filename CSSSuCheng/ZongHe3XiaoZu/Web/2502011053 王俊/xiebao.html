@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鞋包 - 淘趣网</title>
+    <style>
+        /* --- 全局重置 (基于 muban.html) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- 布局容器 --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        /* --- 顶部栏 --- */
+        .top-bar {
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            color: #6c6c6c;
+            padding: 8px 0;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-links a {
+            margin-left: 15px;
+            transition: color 0.2s;
+        }
+
+        .top-links a:hover {
+            color: #ff5000;
+        }
+
+        /* --- 头部搜索 --- */
+        .header-main {
+            background-color: #fff;
+            padding: 20px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff5000;
+            margin-right: 40px;
+            white-space: nowrap;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            border: 2px solid #ff5000;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #ff5000;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-button:hover {
+            background-color: #e04600;
+        }
+
+        /* --- 面包屑导航 --- */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a:hover {
+            color: #ff5000;
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 5px;
+            color: #ccc;
+        }
+
+        /* --- 分类标题区 --- */
+        .category-header {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            border-left: 5px solid #ff5000;
+            padding-left: 15px;
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .sort-item {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .sort-item.active {
+            background-color: #ff5000;
+            color: white;
+        }
+
+        .sort-item:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+
+        /* --- 商品网格区域 --- */
+        .goods-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 500px;
+        }
+
+        .grid-container {
+            display: grid;
+            /* 响应式网格：最小180px，自动填充 */
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        /* 融合 xiebao.html 的卡片样式 */
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            /* 更圆润 */
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 103, 0, 0.1);
+            border-color: #ffdbcc;
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 220px;
+            /* xiebao 的高度 */
+            background-color: #f9f9f9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+            display: block;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-price {
+            color: #ff6700;
+            /* xiebao 的主色 */
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price span {
+            font-size: 0.8rem;
+        }
+
+        .product-name {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            flex-grow: 1;
+        }
+
+        /* 标签样式来自 xiebao.html */
+        .tags {
+            display: flex;
+            gap: 5px;
+            margin-top: auto;
+        }
+
+        .tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border: 1px solid #eee;
+            color: #999;
+            border-radius: 4px;
+        }
+
+        .tag.hot {
+            color: #ff6700;
+            border-color: #ffdbcc;
+            background: #fff0e6;
+        }
+
+        /* --- 底部 --- */
+        .footer-simple {
+            text-align: center;
+            padding: 30px 0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: #ff5000;
+            color: #ff5000;
+        }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                margin-right: 0;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: none;
+            }
+
+            .grid-container {
+                /* 移动端强制2列 */
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .img-wrapper {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 顶部栏 -->
+    <div class="top-bar">
+        <div class="container">
+            <div>你好，请登录 &nbsp; <a href="#" style="color:#ff5000">免费注册</a></div>
+            <div class="top-links">
+                <a href="../index.html">返回首页</a>
+                <a href="#">我的淘趣</a>
+                <a href="#">购物车</a>
+                <a href="#">会员中心</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 头部搜索 -->
+    <div class="header-main">
+        <div class="container header-content">
+            <a href="../index.html" class="logo">淘趣网</a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索运动鞋、包包...">
+                <button class="search-button">搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a> <span>&gt;</span> <a href="#">鞋包配饰</a> <span>&gt;</span> 全部商品
+        </div>
+
+        <!-- 分类标题与排序 -->
+        <div class="category-header">
+            <h1 class="category-title">热门鞋包</h1>
+            <div class="sort-options">
+                <div class="sort-item active">综合排序</div>
+                <div class="sort-item">销量优先</div>
+                <div class="sort-item">价格从低到高</div>
+                <div class="sort-item">新品上市</div>
+            </div>
+        </div>
+
+        <!-- 商品列表区域 (内容来自 xiebao.html) -->
+        <section class="goods-section">
+            <div class="grid-container">
+
+                <!-- 商品 1: 红色运动鞋 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
+                            alt="红色运动鞋" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>599</div>
+                        <div class="product-name">经典红色运动跑鞋 透气减震 轻便舒适</div>
+                        <div class="tags">
+                            <span class="tag hot">热销</span>
+                            <span class="tag">包邮</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 2: 休闲板鞋 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=500&q=80"
+                            alt="休闲鞋" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>399</div>
+                        <div class="product-name">复古休闲板鞋 街头潮流百搭 男女同款</div>
+                        <div class="tags">
+                            <span class="tag">新品</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 3: 女士手提包 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=500&q=80"
+                            alt="女士手提包" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>899</div>
+                        <div class="product-name">时尚真皮手提包 优雅气质 通勤必备</div>
+                        <div class="tags">
+                            <span class="tag hot">推荐</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 4: 双肩包 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80"
+                            alt="双肩包" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>259</div>
+                        <div class="product-name">大容量多功能双肩包 防水耐磨 电脑隔层</div>
+                        <div class="tags">
+                            <span class="tag">特惠</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 5: 绿色篮球鞋 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=500&q=80"
+                            alt="绿色运动鞋" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>799</div>
+                        <div class="product-name">限量版绿色篮球鞋 高帮护踝 实战利器</div>
+                        <div class="tags">
+                            <span class="tag hot">限量</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 6: 皮质钱包 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=500&q=80"
+                            alt="皮质钱包" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>199</div>
+                        <div class="product-name">头层牛皮短款钱包 多卡位 精致礼盒装</div>
+                        <div class="tags">
+                            <span class="tag">赠品</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 7: 老爹鞋 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=500&q=80"
+                            alt="老爹鞋" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>459</div>
+                        <div class="product-name">增高老爹鞋 厚底显瘦 复古潮流设计</div>
+                        <div class="tags">
+                            <span class="tag hot">爆款</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 8: 帆布包 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=500&q=80"
+                            alt="帆布包" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>59</div>
+                        <div class="product-name">文艺帆布单肩包 环保材质 学生党首选</div>
+                        <div class="tags">
+                            <span class="tag">低价</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 9: 商务皮鞋 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=500&q=80"
+                            alt="皮鞋" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>699</div>
+                        <div class="product-name">商务正装皮鞋 英伦风 透气内里</div>
+                        <div class="tags">
+                            <span class="tag">正品</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 10: 斜挎包 -->
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=500&q=80"
+                            alt="斜挎包" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><small>¥</small>329</div>
+                        <div class="product-name">迷你链条斜挎包 精致小巧 约会必备</div>
+                        <div class="tags">
+                            <span class="tag hot">新品</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="footer-simple">
+            <p>© 2026 淘趣网 版权所有</p>
+            <a href="../index.html" class="back-btn">&larr; 返回首页</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>女装 - 淘趣网</title>
+    <style>
+        /* --- 全局重置 (与首页保持一致) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- 布局容器 --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        /* --- 顶部栏 --- */
+        .top-bar {
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            color: #6c6c6c;
+            padding: 8px 0;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-links a {
+            margin-left: 15px;
+            transition: color 0.2s;
+        }
+
+        .top-links a:hover {
+            color: #ff5000;
+        }
+
+        /* --- 头部搜索 --- */
+        .header-main {
+            background-color: #fff;
+            padding: 20px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff5000;
+            margin-right: 40px;
+            white-space: nowrap;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            border: 2px solid #ff5000;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #ff5000;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-button:hover {
+            background-color: #e04600;
+        }
+
+        /* --- 面包屑导航 --- */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a:hover {
+            color: #ff5000;
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 5px;
+            color: #ccc;
+        }
+
+        /* --- 分类标题区 --- */
+        .category-header {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            border-left: 5px solid #ff5000;
+            padding-left: 15px;
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .sort-item {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .sort-item.active {
+            background-color: #ff5000;
+            color: white;
+        }
+
+        .sort-item:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+
+        /* --- 商品网格区域 --- */
+        .goods-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 500px;
+        }
+
+        .grid-container {
+            display: grid;
+            /* 响应式网格：最小180px，自动填充 */
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: #ff5000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #f9f9f9;
+            display: block;
+        }
+
+        .product-info {
+            padding: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-price {
+            color: #ff5000;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price span {
+            font-size: 0.8rem;
+        }
+
+        .product-name {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 36px;
+            line-height: 18px;
+            flex-grow: 1;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #999;
+            margin-top: auto;
+        }
+
+        /* --- 底部 --- */
+        .footer-simple {
+            text-align: center;
+            padding: 30px 0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: #ff5000;
+            color: #ff5000;
+        }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                margin-right: 0;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: none;
+            }
+
+            .grid-container {
+                /* 移动端强制2列 */
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 顶部栏 -->
+    <div class="top-bar">
+        <div class="container">
+            <div>你好，请登录 &nbsp; <a href="#" style="color:#ff5000">免费注册</a></div>
+            <div class="top-links">
+                <a href="../index.html">返回首页</a>
+                <a href="#">我的淘趣</a>
+                <a href="#">购物车</a>
+                <a href="#">收藏夹</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 头部搜索 -->
+    <div class="header-main">
+        <div class="container header-content">
+            <a href="../index.html" class="logo">淘趣网</a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索宝贝...">
+                <button class="search-button">搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a> <span>&gt;</span> <a href="#">女装</a> <span>&gt;</span> 全部商品
+        </div>
+
+        <!-- 分类标题与排序 -->
+        <div class="category-header">
+            <h1 class="category-title">女装 </h1>
+            <div class="sort-options">
+                <div class="sort-item active">综合排序</div>
+                <div class="sort-item">销量优先</div>
+                <div class="sort-item">价格从低到高</div>
+                <div class="sort-item">新品上市</div>
+            </div>
+        </div>
+
+        <!-- 商品列表区域 -->
+        <section class="goods-section">
+            <div class="grid-container">
+                <!-- 商品 1 -->
+                <div class="product-card">
+                    <img src="https://img.alicdn.com/i4/2479761659/O1CN01bED0Bk1O7ru4JMcZb_!!2479761659.jpg" alt="连衣裙"
+                        class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>199.00</div>
+                        <div class="product-name">2024夏季新款法式复古蓝色碎花连衣裙收腰显瘦气质长裙</div>
+                        <div class="product-meta"><span>1200+人付款</span><span>热卖</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 2 -->
+                <div class="product-card">
+                    <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.fV1ctM-dIKqK05CF8iHRFwAAAA?w=209&h=209&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="衬衫" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>89.00</div>
+                        <div class="product-name">白色纯棉短袖衬衫女设计感小众夏季薄款宽松百搭上衣</div>
+                        <div class="product-meta"><span>800+人付款</span><span>包邮</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 3 -->
+                <div class="product-card">
+                    <img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.UgHWB3pmSOIwyM2UO7cSnwHaHa?w=209&h=209&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="半身裙" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>129.00</div>
+                        <div class="product-name">高腰牛仔半身裙女夏季A字裙显瘦包臀短裙百搭学生</div>
+                        <div class="product-meta"><span>2300+人付款</span><span>爆款</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 4 -->
+                <div class="product-card">
+                    <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.Kq78ER6EpnUjRkCHk3lwZAAAAA?w=195&h=195&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="开衫" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>159.00</div>
+                        <div class="product-name">浅蓝色针织开衫女夏季薄款防晒衣空调衫小外套温柔风</div>
+                        <div class="product-meta"><span>500+人付款</span><span>新品</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 5 -->
+                <div class="product-card">
+                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.inSDABppbXvhvbB9q77OygHaHa?w=195&h=195&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="阔腿裤" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>119.00</div>
+                        <div class="product-name">西装阔腿裤女夏季薄款垂感拖地裤高腰显瘦休闲直筒裤</div>
+                        <div class="product-meta"><span>1500+人付款</span><span>包邮</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 6 -->
+                <div class="product-card">
+                    <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.pi8e-J4Qi8wlqlO6LmdwHwAAAA?w=202&h=260&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="T恤" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>69.00</div>
+                        <div class="product-name">海军风条纹T恤女夏季短袖宽松百搭显瘦上衣学生潮</div>
+                        <div class="product-meta"><span>100+人付款</span><span>新品</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 7 -->
+                <div class="product-card">
+                    <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.v91e3jGKhi9bokv1URMe_AHaHa?w=218&h=218&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="吊带裙" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>229.00</div>
+                        <div class="product-name">蓝色雪纺吊带连衣裙夏季仙气飘飘长裙海边度假沙滩裙</div>
+                        <div class="product-meta"><span>50+人付款</span><span>包邮</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 8 -->
+                <div class="product-card">
+                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.CC4Z7m2N4yjtvrD1bJnJ5AHaHa?w=197&h=197&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="打底衫" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>79.00</div>
+                        <div class="product-name">白色蕾丝打底衫女内搭夏季薄款镂空上衣精致温柔风</div>
+                        <div class="product-meta"><span>300+人付款</span><span>热卖</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 9 -->
+                <div class="product-card">
+                    <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.xYtnnhHXFiguJ4S18dVK6QHaHa?w=195&h=195&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="背心" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>99.00</div>
+                        <div class="product-name">深蓝色V领针织背心女夏季外穿宽松无袖马甲百搭坎肩</div>
+                        <div class="product-meta"><span>200+人付款</span><span>包邮</span></div>
+                    </div>
+                </div>
+
+                <!-- 商品 10 -->
+                <div class="product-card">
+                    <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.1e0BBvAajm3b-_7Iq4-bEQAAAA?w=217&h=217&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="短裤" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>85.00</div>
+                        <div class="product-name">工装短裤女夏季薄款宽松百搭休闲裤高腰显瘦五分裤</div>
+                        <div class="product-meta"><span>400+人付款</span><span>新品</span></div>
+                    </div>
+                </div>
+                <!-- 为了演示效果，复制几个凑数 -->
+                <div class="product-card">
+                    <img src="https://img.alicdn.com/i4/2479761659/O1CN01bED0Bk1O7ru4JMcZb_!!2479761659.jpg" alt="连衣裙"
+                        class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>199.00</div>
+                        <div class="product-name">2024夏季新款法式复古蓝色碎花连衣裙收腰显瘦气质长裙</div>
+                        <div class="product-meta"><span>1200+人付款</span><span>热卖</span></div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.fV1ctM-dIKqK05CF8iHRFwAAAA?w=209&h=209&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                        alt="衬衫" class="product-image">
+                    <div class="product-info">
+                        <div class="product-price"><span>¥</span>89.00</div>
+                        <div class="product-name">白色纯棉短袖衬衫女设计感小众夏季薄款宽松百搭上衣</div>
+                        <div class="product-meta"><span>800+人付款</span><span>包邮</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer-simple">
+            <p>© 2024 淘趣网 版权所有</p>
+            <a href="../index.html" class="back-btn">&larr; 返回首页</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

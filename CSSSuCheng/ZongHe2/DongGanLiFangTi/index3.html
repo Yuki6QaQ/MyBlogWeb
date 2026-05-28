@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画制作</title>
+    <style>
+        .play-ground {
+            width: 600px;
+            height: 350px;
+            border: solid 1px rgb(176, 71, 71);
+        }
+
+        .ball {
+            background: rgb(66, 174, 237);
+            border-radius: 50%;
+            position: absolute;
+            animation: ball 7s ease-in-out infinite;
+        }
+
+        @keyframes ball {
+
+            from {
+                /*起始start样式，0%亦可写作from*/
+                width: 50px;
+                height: 50px;
+                left: 30px;
+                top: 130px;
+            }
+
+            24% {
+                /*内部第一个关键帧keyframe1样式，24%是根据图示的估计值*/
+                width: 25px;
+                height: 25px;
+                left: 130px;
+                top: 20px;
+
+            }
+
+            50% {
+                /*keyframe2 样式*/
+                width: 100px;
+                height: 100px;
+                left: 240px;
+                top: 100px;
+            }
+
+            73% {
+                /*keyframe3 样式*/
+                width: 80px;
+                height: 80px;
+                left: 360px;
+                top: 200px;
+            }
+
+            to {
+                /*end结束样式,100%亦可写作to*/
+                width: 150px;
+                height: 150px;
+                left: 420px;
+                top: 70px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="play-ground">
+        <div class="ball"></div>
+    </div>
+</body>
+
+</html>

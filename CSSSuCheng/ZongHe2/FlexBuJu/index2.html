@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案例一</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        #container {
+            background-color: bisque;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header_foonter {
+            height: 150px;
+            background-color: aqua;
+        }
+
+        #main {
+            flex: auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left_right {
+            flex-basis: 200px;
+            background-color: cornflowerblue;
+        }
+
+        #center {
+            flex: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header" class="header_foonter"></div>
+        <div id="main">
+            <div id="left" class="left_right"></div>
+            <div id="center"></div>
+            <div id="right" class="left_right"></div>
+        </div>
+        <div id="footer" class="header_foonter"></div>
+    </div>
+
+</body>
+
+</html>
