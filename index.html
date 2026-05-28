@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuki的博客</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- 保留 FontAwesome 用于其他图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 新增：引入 Iconfont 用于哔哩哔哩、Gitee、微信等国内平台图标 -->
+    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4448398_5j5q5q5q5q.css">
+    <!-- 注意：上述 Iconfont 链接为示例，若失效请使用下方 style 中的 SVG 直接嵌入方式，或者去 iconfont.cn 生成自己的项目链接 -->
+
+    <!-- 为了稳定展示，我将在 HTML 中直接使用 SVG 代码，这样无需依赖外部不稳定的 CSS 链接 -->
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        section[id] {
+            scroll-margin-top: 100px;
+        }
+
+        .idea-content h3 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .idea-content h3 i {
+            font-size: 1rem;
+        }
+
+        .idea-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .idea-content strong {
+            color: var(--text-color);
+        }
+
+        /* 社交图标 SVG 样式适配 */
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            /* 继承文字颜色 */
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover svg {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">Yuki</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="#portfolio" class="nav-link">个人作品</a></li>
+                <li class="nav-item"><a href="#notes" class="nav-link">小组作业</a></li>
+                <li class="nav-item"><a href="#ideas" class="nav-link">制作思路</a></li>
+                <li class="nav-item"><a href="#summary" class="nav-link">项目总结</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <aside class="left-sidebar">
+            <div class="avatar-container glass">
+                <img src="./img/TouXiang.jpg" alt="Yuki头像" class="avatar">
+            </div>
+
+            <div class="skills-scroll glass">
+                <div class="skills-icons marquee">
+                    <!-- HTML5 -->
+                    <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML" target="_blank" class="skill-icon"
+                        title="HTML5">
+                        <i class="fab fa-html5"></i>
+                    </a>
+                    <!-- CSS3 -->
+                    <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS" target="_blank" class="skill-icon"
+                        title="CSS3">
+                        <i class="fab fa-css3-alt"></i>
+                    </a>
+                    <!-- JavaScript -->
+                    <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript" target="_blank" class="skill-icon"
+                        title="JavaScript">
+                        <i class="fab fa-js-square"></i>
+                    </a>
+                    <!-- React -->
+                    <a href="https://react.dev/" target="_blank" class="skill-icon" title="React">
+                        <i class="fab fa-react"></i>
+                    </a>
+                    <!-- Vue.js -->
+                    <a href="https://cn.vuejs.org/" target="_blank" class="skill-icon" title="Vue.js">
+                        <i class="fab fa-vuejs"></i>
+                    </a>
+                    <!-- Node.js -->
+                    <a href="https://nodejs.org/" target="_blank" class="skill-icon" title="Node.js">
+                        <i class="fab fa-node-js"></i>
+                    </a>
+                    <!-- Git -->
+                    <a href="https://git-scm.com/" target="_blank" class="skill-icon" title="Git">
+                        <i class="fab fa-git-alt"></i>
+                    </a>
+                    <!-- GitHub -->
+                    <a href="https://github.com/" target="_blank" class="skill-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <!-- Docker -->
+                    <a href="https://www.docker.com/" target="_blank" class="skill-icon" title="Docker">
+                        <i class="fab fa-docker"></i>
+                    </a>
+                    <!-- Webpack -->
+                    <a href="https://webpack.js.org/" target="_blank" class="skill-icon" title="Webpack">
+                        <i class="fab fa-webpack"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="status-card glass">
+                <div class="status-time" id="sidebar-time">00:00</div>
+                <div class="status-quote" id="sidebar-quote">Stay hungry, stay foolish.</div>
+            </div>
+
+            <div class="tags-card glass">
+                <span class="tag">HTML5</span>
+                <span class="tag">CSS3+JS</span>
+                <span class="tag">jQuery</span>
+                <span class="tag">Python</span>
+                <span class="tag">美食</span>
+                <span class="tag">大一</span>
+                <span class="tag">睡觉</span>
+                <span class="tag">旅行</span>
+            </div>
+
+            <div class="timeline-card glass">
+                <div class="timeline-item">
+                    <div class="timeline-dot green"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026-05-20</div>
+                        <div class="timeline-text">博客上线啦 🎉</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot blue"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026-03-09</div>
+                        <div class="timeline-text">开始学习web前端</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot purple"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025-09-01</div>
+                        <div class="timeline-text">进入大学学习</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot gray"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025-01-12</div>
+                        <div class="timeline-text">考完高职高考啦</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="right-content">
+            <div id="home" style="position: relative; top: -100px;"></div>
+
+            <div class="greeting-section glass">
+                <h1 class="greeting-title">欢迎来到 <span class="highlight">Yukiの博客</span></h1>
+                <p class="greeting-subtitle">
+                    <span class="emoji">✨</span> Welcome everyone to my website Yuki blog
+                </p>
+                <p class="greeting-quote">
+                    The only way to do great is to <span class="highlight">love</span> what you do.
+                </p>
+
+                <div class="social-links">
+                    <a href="https://www.bilibili.com/" target="_blank" class="social-link" title="哔哩哔哩">
+                        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M784.2 195.8c-25.6-25.6-67.2-25.6-92.8 0L512 375.2 332.6 195.8c-25.6-25.6-67.2-25.6-92.8 0-25.6 25.6-25.6 67.2 0 92.8L419.2 468H256c-70.4 0-128 57.6-128 128v256c0 70.4 57.6 128 128 128h512c70.4 0 128-57.6 128-128V596c0-70.4-57.6-128-128-128H604.8l179.4-179.4c25.6-25.6 25.6-67.2 0-92.8zM768 852H256c-35.2 0-64-28.8-64-64V596c0-35.2 28.8-64 64-64h512c35.2 0 64 28.8 64 64v256c0 35.2-28.8 64-64 64z" />
+                        </svg>
+                    </a>
+
+                    <a href="https://gitee.com/" target="_blank" class="social-link" title="Gitee">
+                        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M512 1024C229.2 1024 0 794.8 0 512S229.2 0 512 0s512 229.2 512 512-229.2 512-512 512z m259.7-552.5H426.2c-10.6 0-19.2 8.6-19.2 19.2v38.4c0 10.6 8.6 19.2 19.2 19.2h172.8c10.6 0 19.2 8.6 19.2 19.2v19.2c0 31.8-25.8 57.6-57.6 57.6h-19.2c-10.6 0-19.2 8.6-19.2 19.2v38.4c0 10.6 8.6 19.2 19.2 19.2h19.2c74.2 0 134.4-60.2 134.4-134.4v-19.2c0-10.6 8.6-19.2 19.2-19.2h76.8c10.6 0 19.2-8.6 19.2-19.2v-38.4c0-10.6-8.6-19.2-19.2-19.2z m-441.6-19.2h-38.4c-10.6 0-19.2 8.6-19.2 19.2v230.4c0 10.6 8.6 19.2 19.2 19.2h38.4c10.6 0 19.2-8.6 19.2-19.2V471.5c0-10.6-8.6-19.2-19.2-19.2z" />
+                        </svg>
+                    </a>
+
+                    <a href="https://weibo.com/" target="_blank" class="social-link" title="微博">
+                        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M512 1024C229.2 1024 0 794.8 0 512S229.2 0 512 0s512 229.2 512 512-229.2 512-512 512z m236.8-460.8c-10.6-10.6-25.6-10.6-36.2 0l-18.4 18.4c-10.6 10.6-10.6 25.6 0 36.2 10.6 10.6 25.6 10.6 36.2 0l18.4-18.4c10.6-10.6 10.6-25.6 0-36.2z m-102.4-102.4c-10.6-10.6-25.6-10.6-36.2 0l-18.4 18.4c-10.6 10.6-10.6 25.6 0 36.2 10.6 10.6 25.6 10.6 36.2 0l18.4-18.4c10.6-10.6 10.6-25.6 0-36.2z m-256 256c-10.6-10.6-25.6-10.6-36.2 0l-18.4 18.4c-10.6 10.6-10.6 25.6 0 36.2 10.6 10.6 25.6 10.6 36.2 0l18.4-18.4c10.6-10.6 10.6-25.6 0-36.2z m102.4-102.4c-10.6-10.6-25.6-10.6-36.2 0l-18.4 18.4c-10.6 10.6-10.6 25.6 0 36.2 10.6 10.6 25.6 10.6 36.2 0l18.4-18.4c10.6-10.6 10.6-25.6 0-36.2z" />
+                        </svg>
+                    </a>
+
+                    <a href="https://im.qq.com/index/#/" target="_blank" class="social-link" title="QQ">
+                        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M824.8 613.2c-16-51.4-34.4-94.6-62.7-165.3C766.5 262.2 689.3 112 511.5 112 331.7 112 256.4 265.2 261 447.9c-28.4 70.8-46.7 113.8-62.7 165.3-34 109.5-23 154.8-14.6 155.8 18 2.2 70.1-82.4 70.1-82.4 0 49 25.2 112.9 79.8 159-26.4 8.1-85.7 29.9-71.6 53.8 11.4 19.3 196.2 12.3 249.5 6.3 53.3 6 238.1 13 249.5-6.3 14.1-23.8-45.2-45.7-71.6-53.8 54.6-46.2 79.8-110.1 79.8-159 0 0 52.1 84.6 70.1 82.4 8.5-1.1 19.5-46.4-14.5-155.8z M511.5 798.8c-109.3 0-132.3-20.6-132.3-20.6 29.6-15.8 53.3-40.3 53.3-40.3 76.4 53.3 158.6 0 158.6 0 0 0 23.7 24.5 53.3 40.3 0 0-23 20.6-132.9 20.6z" />
+                        </svg>
+                    </a>
+
+                    <a href="https://weixin.qq.com/" class="social-link" title="微信">
+                        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M698.8 630.4c26.4 0 51.2-5.2 74.4-14.4 6.4 36 10.4 73.6 10.4 112 0 141.6-114.8 256-256 256-141.6 0-256-114.8-256-256 0-141.6 114.8-256 256-256 26.4 0 51.2 4 76.8 10.4-2.4 12.8-4 25.6-4 38.4 0 106 86 192 192 192 2.4 0 4.8 0 7.2-0.4-3.2 39.2-10.4 77.6-20.8 114.4 36-10.4 74.4-17.6 114.4-20.8-0.4 2.4-0.4 4.8-0.4 7.2 0 106-86 192-192 192zM325.2 384c-26.4 0-51.2 5.2-74.4 14.4-6.4-36-10.4-73.6-10.4-112 0-141.6 114.8-256 256-256 141.6 0 256 114.8 256 256 0 141.6-114.8 256-256 256-26.4 0-51.2-4-76.8-10.4 2.4-12.8 4-25.6 4-38.4 0-106-86-192-192-192-2.4 0-4.8 0-7.2 0.4 3.2-39.2 10.4-77.6 20.8-114.4-36 10.4-74.4 17.6-114.4 20.8 0.4-2.4 0.4-4.8 0.4-7.2 0-106 86-192 192-192z" />
+                        </svg>
+                    </a>
+
+                    <a href="mailto:your-email@example.com" class="social-link" title="邮箱">
+                        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M853.3 256H170.7c-70.4 0-128 57.6-128 128v256c0 70.4 57.6 128 128 128h682.7c70.4 0 128-57.6 128-128V384c0-70.4-57.6-128-128-128z m0 384H170.7c-35.2 0-64-28.8-64-64V384c0-35.2 28.8-64 64-64h682.7c35.2 0 64 28.8 64 64v256c0 35.2-28.8 64-64 64z M512 554.7L170.7 384h682.7L512 554.7z" />
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="carousel-container glass">
+                <div class="carousel-track" id="carousel-track">
+                    <div class="carousel-slide active">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1352&q=80"
+                            alt="Code">
+                        <div class="slide-caption">热爱编程，热爱生活</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80"
+                            alt="Design">
+                        <div class="slide-caption">探索前端设计的无限可能</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80"
+                            alt="Work">
+                        <div class="slide-caption">记录每一次成长的足迹</div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev-btn" id="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next-btn" id="next-btn"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-indicators" id="carousel-indicators"></div>
+            </div>
+
+            <section id="ideas" class="section">
+                <h2 class="section-title"><i class="fas fa-lightbulb"></i> 制作思路与架构解析</h2>
+                <div class="intro glass idea-content">
+                    <h3><i class="fas fa-paint-brush"></i> 1. 视觉架构：Glassmorphism 风格体系</h3>
+                    <p>项目初期，我通过手绘草图确立了<b>“左侧固定侧边栏 + 右侧动态内容区”</b>的双栏布局。为了提升视觉质感，我在全站构建了基于 CSS 变量的
+                        <b>Glassmorphism（毛玻璃）</b> 设计系统。
+                    </p>
+                    <p>在 <code>style.css</code> 中定义了 <code>.glass</code> 类，统一使用
+                        <code>backdrop-filter: blur(10px)</code>、半透明背景及细腻边框。这种模块化 CSS 写法确保了全站 UI 的高度一致性。同时利用
+                        <code>content.css</code> 中的 Flexbox 和 Grid 布局，配合媒体查询实现了从桌面端到移动端的无缝切换。
+                    </p>
+
+                    <h3><i class="fas fa-database"></i> 2. 数据驱动开发：解耦 HTML 与 JavaScript</h3>
+                    <p>随着作品数量的增加，我引入了<b>数据与视图分离</b>的开发模式。所有个人作品和小组作业的数据被结构化存储在 <code>js/data.js</code> 中，形成了项目的“单一数据源”。
+                    </p>
+                    <p>在 <code>js/main.js</code> 中，我编写了渲染函数。程序启动时，JS 遍历数据数组，利用模板字符串动态生成 <code>.work-card</code>
+                        卡片并注入页面。这不仅让主文件保持了极高的可读性，更实现了“修改一处数据，全局自动更新”的高效维护。</p>
+
+                    <h3><i class="fas fa-cogs"></i> 3. 交互逻辑与状态管理</h3>
+                    <p>为了提升用户体验，我在 <code>js/ui.js</code> 和 <code>js/sidebar.js</code> 中实现了复杂的交互逻辑：</p>
+                    <p><b>多级联动筛选系统：</b>实现了“父级分类 -> 子级标签”的联动筛选，并根据 <code>data-category</code> 属性过滤显示内容，伴随平滑过渡动画。</p>
+                    <p><b>无限轮播图与指示器：</b>手动实现了轮播图逻辑，通过控制 <code>transform: translateX</code> 实现平滑切换，并动态生成底部指示器。</p>
+                    <p><b>滚动侦测与动画：</b>利用 <code>IntersectionObserver</code> API 实现了元素的淡入淡出效果，当用户滚动页面时，卡片和时间轴节点会依次触发可见动画。
+                    </p>
+
+                    <h3><i class="fas fa-robot"></i> 4. 模板化详情页与 AI 辅助工程化</h3>
+                    <p>在保证主页功能完善后，我设计了通用的项目展示模板 <code>MuBan.html</code>。通过 <code>iframe</code> 隔离技术，确保每个作业的独立 CSS/JS
+                        环境不会污染主博客样式。</p>
+                    <p>在项目收尾阶段，我将分散的模块代码交给 AI 进行深度整合。AI 帮助我优化了 CSS 选择器的优先级，修复了 <code>z-index</code> 层级遮挡问题。这种“人类设计架构 +
+                        AI 填充细节”的模式，极大地提升了我的开发效率。</p>
+                </div>
+            </section>
+
+            <section id="about" class="section">
+                <h2 class="section-title"><i class="fas fa-user"></i> 个人简介</h2>
+                <div class="intro glass">
+                    <p>你好！我是 Yuki，也可以叫我 Y。一个前端纯新手，只会点最基础的 HTML、CSS 和 JS，有一点点 PS 基础。</p>
+                    <p>说实话，我现在基础特别不扎实，写代码基本离不开 AI。很多东西都是边搜边写，遇到问题先问 AI，自己其实一知半解。接下来该学什么也完全没头绪，走一步看一步。</p>
+                    <p>我写博客就是为了记录自己踩过的坑，顺便逼自己把 AI 写的代码看懂一点。如果你也是这样的状态，或者有什么学习建议，欢迎来找我交流！</p>
+                </div>
+            </section>
+
+            <section id="portfolio" class="section">
+                <h2 class="section-title"><i class="fas fa-folder-open"></i> 个人作品</h2>
+
+                <div class="works-filter glass">
+                    <div class="filter-level-1">
+                        <button class="filter-tag active" data-filter="all">全部</button>
+                        <button class="filter-tag parent-tag" data-target="web-group" data-parent-filter="web">Web课程 <i
+                                class="fas fa-chevron-down"></i></button>
+                        <button class="filter-tag parent-tag" data-target="java-group" data-parent-filter="java">Java课程
+                            <i class="fas fa-chevron-down"></i></button>
+                        <button class="filter-more-btn">更多 <i class="fas fa-chevron-down"></i></button>
+                    </div>
+
+                    <div class="filter-subgroup" id="web-group">
+                        <button class="filter-tag sub-tag" data-filter="web-intro">开发初体验</button>
+                        <button class="filter-tag sub-tag" data-filter="web-html">HTML速成</button>
+                        <button class="filter-tag sub-tag" data-filter="web-css">CSS速成</button>
+                        <button class="filter-tag sub-tag" data-filter="web-js">JavaScript速成</button>
+                    </div>
+
+                    <div class="filter-subgroup" id="java-group">
+                        <button class="filter-tag sub-tag" data-filter="java">Java基础</button>
+                    </div>
+                </div>
+
+                <div class="grid-2" id="portfolio-grid"></div>
+            </section>
+
+            <section id="notes" class="section">
+                <h2 class="section-title"><i class="fas fa-users"></i> 小组作业</h2>
+                <div class="grid-2" id="notes-grid"></div>
+            </section>
+
+            <section id="summary" class="section">
+                <h2 class="section-title"><i class="fas fa-pen-nib"></i> 项目总结与反思</h2>
+                <div class="intro glass idea-content">
+                    <h3><i class="fas fa-chart-line"></i> 1. 技术成长的跨越</h3>
+                    <p>通过本次博客系统的从零构建，我完成了从“写静态页面”到“开发动态应用”的思维转变。深刻理解了 CSS 变量在主题管理中的作用，以及 Flexbox/Grid
+                        在复杂布局中的灵活性。特别是在处理侧边栏时间轴伪元素连线时，掌握了相对定位与绝对定位的配合技巧。</p>
+                    <p>在 JS 方面，我掌握了数组方法（<code>map</code>, <code>filter</code>）在数据处理中的应用，学会了如何通过 DOM API
+                        操作页面元素，以及如何通过事件委托优化性能。</p>
+
+                    <h3><i class="fas fa-tools"></i> 2. 难点攻克与解决方案</h3>
+                    <p><b>毛玻璃性能的平衡：</b>初期发现过多的 <code>backdrop-filter</code> 导致滚动卡顿。通过减少模糊半径、使用 <code>will-change</code>
+                        属性提示浏览器优化，最终在视觉效果与性能之间找到了平衡点。</p>
+                    <p><b>筛选动画的流畅度：</b>在实现作品筛选时，直接隐藏元素显得生硬。我引入了 CSS <code>transition</code> 配合 JS
+                        添加/移除类名，实现了带有透明度变化的平滑过渡效果。</p>
+                    <p><b>响应式断点的调试：</b>在 <code>responsive.css</code> 中，通过反复测试 992px 和 768px
+                        两个关键断点，解决了移动端导航栏汉堡菜单展开时的层级遮挡问题。</p>
+
+                    <h3><i class="fas fa-rocket"></i> 3. 未来展望</h3>
+                    <p>目前博客已具备核心功能，但仍有优化空间。计划学习 Vue.js 或 React，将目前的原生 JS 渲染逻辑重构为组件化开发，进一步降低耦合度。</p>
+                    <p>考虑引入简单的 Node.js 后端或
+                        Firebase，实现评论系统、访客统计等动态功能，让博客从“静态展示”走向“双向交互”。同时，针对目前动态渲染内容对搜索引擎不够友好的问题，未来将探索服务端渲染（SSR）或预渲染方案。
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer glass">
+        <p>© 2026 Yuki的博客. Made with ❤️</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
